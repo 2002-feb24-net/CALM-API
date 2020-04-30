@@ -1,4 +1,6 @@
-﻿namespace Calm.Dtb
+﻿using Calm.Dtb;
+
+namespace Calm.Lib
 {
     public class UserItem
     {
