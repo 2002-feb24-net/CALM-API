@@ -47,7 +47,7 @@ stages:
         SonarCloud: 'CALM API'
         organization: '2002-feb24-net'
         scannerMode: 'MSBuild'
-        projectKey: '2002-feb24-net_CALM-api'
+        projectKey: '2002-feb24-net_CALM-API'
         projectName: 'CALM-api'
         extraProperties: 'sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/*/coverage.opencover.xml'
       displayName: sonarcloud analysis prepare
