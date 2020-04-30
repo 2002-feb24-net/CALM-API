@@ -1,5 +1,5 @@
 
-# to run api and db in docker (debugger not possible): docker-compose --build up
+# to run api and db in docker (debugger not possible): docker-compose up --build 
 
 # to run db in docker and api outside docker (debugger possible): docker-compose up data
 #   and if you have Docker Desktop, set in user secrets: "DatabaseConnection": "NotesDbPostgreSqlDockerDesktop"
@@ -12,7 +12,7 @@ version: '3.7'
 services:
 
   web:
-    build: CalmService
+    build: .
     image: calmapi:1.0
     depends_on:
       - data
@@ -22,9 +22,10 @@ services:
       - default
     environment:
       DatabaseConnection: CalmDbPostgreSqlDockerCompose
-      ConnectionStrings__CalmDbPostgreSqlDockerCompose: Host=data;Database=CalmDb;Username=postgres;Password=Pass@word
+      ConnectionStrings__CalmDbPostgreSqlDockerCompose: Host=data;Database=CalmDb;Username=postgres;Password=Password123
       EnsureDatabaseCreated: 'true'
       CorsOrigins__0: http://localhost:4200
+      CorsOrigins__1: http://192.168.99.100:4200
       UseHttpsRedirection: 'false'
 
   data:
@@ -34,7 +35,7 @@ services:
     networks:
       - default
     environment:
-      POSTGRES_PASSWORD: Pass@word
+      POSTGRES_PASSWORD: Password123
 
 networks:
   default:
