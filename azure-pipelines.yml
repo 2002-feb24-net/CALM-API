@@ -133,9 +133,10 @@ stages:
           #     action: 'Push services'
           #   displayName: docker-compose push
 
-          # - task: AzureWebAppContainer@1
-          #   inputs:
-          #     azureSubscription: 'Pay-As-You-Go(0518cd5b-d389-4983-9496-cdcae31dcc60)'
-          #     appName: '2002-notes-api-docker'
-          #     multicontainerConfigFile: 'docker-compose.prod.yml'
-          #   displayName: azure app service deploy
+          - task: AzureWebAppContainer@1
+            inputs:
+              azureSubscription: 'Azure subscription 1(34c1f765-2be7-443c-b6cc-1dfb59828d08)'
+              appName: 'calm-api'
+              multicontainerConfigFile: 'docker-compose.prod.yml'
+            displayName: azure app service deploy
+
