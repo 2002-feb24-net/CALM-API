@@ -17,12 +17,12 @@ stages:
 
     steps:
 
-    - task: DockerCompose@0
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerComposeFile: 'docker-compose.prod.yml'
-        action: 'Build services'
-      displayName: docker-compose build
+    # - task: DockerCompose@0
+    #   inputs:
+    #     containerregistrytype: 'Container Registry'
+    #     dockerComposeFile: 'docker-compose.prod.yml'
+    #     action: 'Build services'
+    #   displayName: docker-compose build
 
   - job: test
 
@@ -31,7 +31,7 @@ stages:
 
     variables:
       sdkVersion: 3.1.x
-      solutionPath: NotesService
+      # solutionPath: CALM-API
       buildConfiguration: Release
 
     steps:
@@ -42,15 +42,15 @@ stages:
         version: '2.1.x'
       displayName: dotnet 2.1.x
 
-    # - task: SonarCloudPrepare@1
-    #   inputs:
-    #     SonarCloud: 'sonarcloud-escalonn'
-    #     organization: '2002-feb24-net'
-    #     scannerMode: 'MSBuild'
-    #     projectKey: '2002-feb24-net_nick-project2-notes-api'
-    #     projectName: 'nick-project2-notes-api'
-    #     extraProperties: 'sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/*/coverage.opencover.xml'
-    #   displayName: sonarcloud analysis prepare
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'CALM API'
+        organization: '2002-feb24-net'
+        scannerMode: 'MSBuild'
+        projectKey: '2002-feb24-net_CALM-api'
+        projectName: 'CALM-api'
+        extraProperties: 'sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/*/coverage.opencover.xml'
+      displayName: sonarcloud analysis prepare
 
     - task: UseDotNet@2
       inputs:
@@ -118,12 +118,12 @@ stages:
 
           - download: none
 
-          - task: DockerCompose@0
-            inputs:
-              containerregistrytype: 'Container Registry'
-              dockerComposeFile: 'docker-compose.prod.yml'
-              action: 'Build services'
-            displayName: docker-compose build
+          # - task: DockerCompose@0
+          #   inputs:
+          #     containerregistrytype: 'Container Registry'
+          #     dockerComposeFile: 'docker-compose.prod.yml'
+          #     action: 'Build services'
+          #   displayName: docker-compose build
 
           # - task: DockerCompose@0
           #   inputs:
