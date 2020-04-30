@@ -17,12 +17,12 @@ stages:
 
     steps:
 
-    # - task: DockerCompose@0
-    #   inputs:
-    #     containerregistrytype: 'Container Registry'
-    #     dockerComposeFile: 'docker-compose.prod.yml'
-    #     action: 'Build services'
-    #   displayName: docker-compose build
+    - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerComposeFile: 'docker-compose.prod.yml'
+        action: 'Build services'
+      displayName: docker-compose build
 
   - job: test
 
@@ -118,20 +118,20 @@ stages:
 
           - download: none
 
-          # - task: DockerCompose@0
-          #   inputs:
-          #     containerregistrytype: 'Container Registry'
-          #     dockerComposeFile: 'docker-compose.prod.yml'
-          #     action: 'Build services'
-          #   displayName: docker-compose build
+          - task: DockerCompose@0
+            inputs:
+              containerregistrytype: 'Container Registry'
+              dockerComposeFile: 'docker-compose.prod.yml'
+              action: 'Build services'
+            displayName: docker-compose build
 
-          # - task: DockerCompose@0
-          #   inputs:
-          #     containerregistrytype: 'Container Registry'
-          #     dockerRegistryEndpoint: 'dockerhub-nicholasescalona'
-          #     dockerComposeFile: 'docker-compose.prod.yml'
-          #     action: 'Push services'
-          #   displayName: docker-compose push
+          - task: DockerCompose@0
+            inputs:
+              containerregistrytype: 'Container Registry'
+              dockerRegistryEndpoint: 'dockerhub-nicholasescalona'
+              dockerComposeFile: 'docker-compose.prod.yml'
+              action: 'Push services'
+            displayName: docker-compose push
 
           - task: AzureWebAppContainer@1
             inputs:
