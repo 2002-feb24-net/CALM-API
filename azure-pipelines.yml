@@ -128,7 +128,7 @@ stages:
           - task: DockerCompose@0
             inputs:
               containerregistrytype: 'Container Registry'
-              dockerRegistryEndpoint: 'dockerhub-nicholasescalona'
+              dockerRegistryEndpoint: 'CalmApi'
               dockerComposeFile: 'docker-compose.prod.yml'
               action: 'Push services'
             displayName: docker-compose push
