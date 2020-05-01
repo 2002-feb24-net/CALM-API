@@ -32,7 +32,10 @@ namespace Calm.App
         {
             services.AddControllers();
 
-            var connection = Configuration.GetConnectionString("postgre");
+            var connection = Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") != null ?
+                Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") :
+                Configuration.GetConnectionString("postgre");
+
 
             services.AddDbContext<CalmContext>(s=> s.UseNpgsql(connection));
 

@@ -22,7 +22,7 @@ services:
       - default
     environment:
       DatabaseConnection: CalmDbPostgreSqlDockerCompose
-      ConnectionStrings__CalmDbPostgreSqlDockerCompose: Host=data;Database=CalmDb;Username=Admin;Password=Password123
+      ConnectionStrings__CalmDbPostgreSqlDockerCompose: Host=data;Database=CalmDb;Username=postgres;Password=Password123
       EnsureDatabaseCreated: 'true'
       CorsOrigins__0: http://localhost:4200
       UseHttpsRedirection: 'false'
