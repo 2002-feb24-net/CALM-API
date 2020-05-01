@@ -13,6 +13,7 @@ namespace Calm.Lib
             LName = item.LName;
             Username = item.Username;
             Password = item.Password;
+            IsAdmin = item.IsAdmin;
         }
 
         public User ToData()
@@ -23,7 +24,8 @@ namespace Calm.Lib
                 FName = this.FName,
                 LName = this.LName,
                 Username = this.Username,
-                Password = this.Password
+                Password = this.Password,
+                IsAdmin = this.IsAdmin
             };
         }
 
@@ -36,5 +38,7 @@ namespace Calm.Lib
         public string Username { get; set; }
 
         public string Password { get; set; }
+
+        public bool IsAdmin { get; set; }
     }
 }

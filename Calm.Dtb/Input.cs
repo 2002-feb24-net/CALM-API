@@ -7,7 +7,7 @@ namespace Calm.Dtb
 {
     public class Input : IInput
     {
-        private CalmContext context;
+        private readonly CalmContext context;
 
         public Input(CalmContext cont)
         {

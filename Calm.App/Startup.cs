@@ -32,8 +32,8 @@ namespace Calm.App
         {
             services.AddControllers();
 
-            var connection = Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") != null ?
-                Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") :
+            var connection = 
+                Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") ?? 
                 Configuration.GetConnectionString("postgre");
 
 

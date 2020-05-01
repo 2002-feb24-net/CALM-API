@@ -8,16 +8,23 @@ namespace Calm.Lib
 {
     public class Post : IPost
     {
-        private IInput input { get; set; }
+        private IInput Input { get; set; }
 
         public Post(IInput input)
         {
-            this.input = input;
+            this.Input = input;
         }
 
         public async Task<UserItem> User(UserItem item)
         {
-            item.Id = (await input.Add(item)).Id;
+            item.IsAdmin = false;
+            item.Id = (await Input.Add(item)).Id;
+            return item;
+        }
+
+        public async Task<object> AdminUser(string username, string password, UserItem item)
+        {
+            item.Id = (await Input.Add(item)).Id;
             return item;
         }
     }

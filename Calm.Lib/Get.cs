@@ -8,16 +8,16 @@ namespace Calm.Lib
 {
     public class Get : IGet
     {
-        private IOutput output { get; set; }
+        private IOutput Output { get; set; }
 
         public Get(IOutput output)
         {
-            this.output = output;
+            this.Output = output;
         }
 
         public async Task<User> Login(string username, string password)
         {
-            return await output.GetFind<User>(x => x.Username == username && x.Password == password);
+            return await Output.GetFind<User>(x => x.Username == username && x.Password == password);
         }
     }
 }

@@ -15,28 +15,28 @@ namespace Calm.App.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private IGet get { get; set; }
-        private IPost post { get; set; }
-        private IPut put { get; set; }
-        private IDelete delete { get; set; }
+        private IGet Get { get; set; }
+        private IPost Post { get; set; }
+        private IPut Put { get; set; }
+        private IDelete Delete { get; set; }
         public UsersController([FromServices]IGet get, [FromServices]IPost post, [FromServices]IPut put, [FromServices]IDelete delete)
         {
-            this.get = get;
-            this.post = post;
-            this.put = put;
-            this.delete = delete;
+            Get = get;
+            Post = post;
+            Put = put;
+            Delete = delete;
         }
 
         [HttpGet("{Username}/{Password}")]
         public async Task<ActionResult<IEnumerable<UserItem>>> Login(string Username, string Password)
         {
-            return await TryTask.Run<IEnumerable<UserItem>>(async() => Ok(await get.Login(Username,Password)));
+            return await TryTask.Run<IEnumerable<UserItem>>(async() => Ok(await Get.Login(Username,Password)));
         }
 
         [HttpPost]
         public async Task<ActionResult<UserItem>> PostUser([FromBody] UserItem value)
         {
-            return await TryTask.Run<UserItem>(async () => Ok(await post.User(value)));
+            return await TryTask.Run<UserItem>(async () => Ok(await Post.User(value)));
         }
 
         [HttpPut("{Username}/{Password}")]
@@ -44,19 +44,19 @@ namespace Calm.App.Controllers
         {
             return await TryTask.Run(async () =>
             {
-                await put.SetUser(Username, Password, value);
+                await Put.SetUser(Username, Password, value);
                 return Ok();
             });
         }
 
         [HttpDelete("{Username}/{Password}")]
-        public async Task<ActionResult> Delete(string Username, string Password)
+        public async Task<ActionResult> Remove(string Username, string Password)
         {
-            return await TryTask.Run(async () =>
+            return await TryTask.Run((Func<Task<ActionResult>>)(async () =>
             {
-                await delete.RemoveUser(Username, Password);
-                return Ok();
-            });
+                await this.Delete.RemoveUser(Username, Password);
+                return base.Ok();
+            }));
         }
     }
 }

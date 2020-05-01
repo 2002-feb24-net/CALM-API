@@ -8,19 +8,19 @@ namespace Calm.Lib
 {
     public class Delete : IDelete
     {
-        private IOutput output { get; set; }
-        private IInput input { get; set; }
+        private IOutput Output { get; set; }
+        private IInput Input { get; set; }
 
         public Delete(IOutput output, IInput input)
         {
-            this.output = output;
-            this.input = input;
+            this.Output = output;
+            this.Input = input;
         }
 
         public async Task RemoveUser(string username, string password)
         {
-            var item = await output.GetFind<User>(x => x.Username == username && x.Password == password);
-            await input.Remove(item);
+            var item = await Output.GetFind<User>(x => x.Username == username && x.Password == password);
+            await Input.Remove(item);
         }
     }
 }
