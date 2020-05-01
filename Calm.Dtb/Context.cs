@@ -6,7 +6,11 @@ namespace Calm.Dtb
     public class CalmContext : DbContext
     {
         private string access;
-        public CalmContext(string access) { this.access = access; }
+        public CalmContext(string access)
+        {
+            this.access = access;
+            Database.Migrate();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
