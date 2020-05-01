@@ -20,7 +20,7 @@ namespace Calm.Lib
         public async Task<UserItem> User(UserItem item)
         {
             item.IsAdmin = false;
-            item.Id = (await Input.Add(item)).Id;
+            item.Id = (await Input.Add(item.ToData())).Id;
             return item;
         }
 
@@ -28,7 +28,7 @@ namespace Calm.Lib
         {
             if ((await Output.GetFind<User>(x => x.Username == username && x.Password == password)).IsAdmin)
             {
-                item.Id = (await Input.Add(item)).Id;
+                item.Id = (await Input.Add(item.ToData())).Id;
                 return item;
             }
             else

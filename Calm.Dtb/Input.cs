@@ -33,7 +33,7 @@ namespace Calm.Dtb
                 throw new Exception("Input",
                     new Exception($"New item is invalid: {E.Message}"));
             }
-            _ = await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
             return output.Entity;
         }
 
