@@ -8,11 +8,13 @@ namespace Calm.Lib
 {
     public class Post : IPost
     {
+        private IOutput Output { get; set; }
         private IInput Input { get; set; }
 
-        public Post(IInput input)
+        public Post(IOutput output, IInput input)
         {
-            this.Input = input;
+            Output = output;
+            Input = input;
         }
 
         public async Task<UserItem> User(UserItem item)
@@ -24,8 +26,15 @@ namespace Calm.Lib
 
         public async Task<object> AdminUser(string username, string password, UserItem item)
         {
-            item.Id = (await Input.Add(item)).Id;
-            return item;
+            if ((await Output.GetFind<User>(x => x.Username == username && x.Password == password)).IsAdmin)
+            {
+                item.Id = (await Input.Add(item)).Id;
+                return item;
+            }
+            else
+            {
+                throw new Exception("404",new Exception("User is not an admin"));
+            }
         }
     }
 }
