@@ -7,7 +7,7 @@ namespace Calm.Dtb
 {
     public class Input : IInput
     {
-        private CalmContext context;
+        private readonly CalmContext context;
 
         public Input(CalmContext cont)
         {
@@ -33,8 +33,31 @@ namespace Calm.Dtb
                 throw new Exception("Input",
                     new Exception($"New item is invalid: {E.Message}"));
             }
-            _ = await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
             return output.Entity;
+        }
+
+        public async Task Set<T>(T item, int id) where T : class
+        {
+            var querry = context.Set<T>();
+            T output;
+            try
+            {
+                output = await querry.FindAsync(id);
+                output = item;
+            }
+            catch (Exception E)
+            {
+                throw new Exception("Input",
+                    new Exception($"New item is invalid: {E.Message}"));
+            }
+            await context.SaveChangesAsync();
+        }
+
+        public async Task Remove<T>(T item) where T : class
+        {
+            context.Set<T>().Remove(item);
+            await context.SaveChangesAsync();
         }
     }
 }

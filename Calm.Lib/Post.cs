@@ -8,18 +8,33 @@ namespace Calm.Lib
 {
     public class Post : IPost
     {
-        private IInput input { get; set; }
+        private IOutput Output { get; set; }
+        private IInput Input { get; set; }
 
-        public Post(IInput input)
+        public Post(IOutput output, IInput input)
         {
-            this.input = input;
+            Output = output;
+            Input = input;
         }
 
         public async Task<UserItem> User(UserItem item)
         {
-            var data = await input.Add(item.ToData());
-            item.Id = data.Id;
+            item.IsAdmin = false;
+            item.Id = (await Input.Add(item.ToData())).Id;
             return item;
+        }
+
+        public async Task<object> AdminUser(string username, string password, UserItem item)
+        {
+            if ((await Output.GetFind<User>(x => x.Username == username && x.Password == password)).IsAdmin)
+            {
+                item.Id = (await Input.Add(item.ToData())).Id;
+                return item;
+            }
+            else
+            {
+                throw new Exception("404",new Exception("User is not an admin"));
+            }
         }
     }
 }

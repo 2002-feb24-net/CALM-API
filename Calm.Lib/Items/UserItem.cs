@@ -1,4 +1,6 @@
-﻿namespace Calm.Dtb
+﻿using Calm.Dtb;
+
+namespace Calm.Lib
 {
     public class UserItem
     {
@@ -11,6 +13,7 @@
             LName = item.LName;
             Username = item.Username;
             Password = item.Password;
+            IsAdmin = item.IsAdmin;
         }
 
         public User ToData()
@@ -21,7 +24,8 @@
                 FName = this.FName,
                 LName = this.LName,
                 Username = this.Username,
-                Password = this.Password
+                Password = this.Password,
+                IsAdmin = this.IsAdmin
             };
         }
 
@@ -34,5 +38,7 @@
         public string Username { get; set; }
 
         public string Password { get; set; }
+
+        public bool IsAdmin { get; set; }
     }
 }

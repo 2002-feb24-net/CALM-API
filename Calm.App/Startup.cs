@@ -32,8 +32,8 @@ namespace Calm.App
         {
             services.AddControllers();
 
-            var connection = Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") != null ?
-                Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") :
+            var connection = 
+                Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") ?? 
                 Configuration.GetConnectionString("postgre");
 
 
@@ -43,6 +43,8 @@ namespace Calm.App
             services.AddScoped<IInput,Input>();
             services.AddScoped<IGet,Get>();
             services.AddScoped<IPost,Post>();
+            services.AddScoped<IPut, Put>();
+            services.AddScoped<IDelete, Delete>();
 
             services.AddSwaggerGen(c =>
             {
