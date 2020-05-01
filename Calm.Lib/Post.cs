@@ -17,8 +17,7 @@ namespace Calm.Lib
 
         public async Task<UserItem> User(UserItem item)
         {
-            var data = await input.Add(item.ToData());
-            item.Id = data.Id;
+            item.Id = (await input.Add(item)).Id;
             return item;
         }
     }

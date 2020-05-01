@@ -17,44 +17,46 @@ namespace Calm.App.Controllers
     {
         private IGet get { get; set; }
         private IPost post { get; set; }
-
-        public UsersController([FromServices]IGet get, [FromServices]IPost post)
+        private IPut put { get; set; }
+        private IDelete delete { get; set; }
+        public UsersController([FromServices]IGet get, [FromServices]IPost post, [FromServices]IPut put, [FromServices]IDelete delete)
         {
             this.get = get;
             this.post = post;
+            this.put = put;
+            this.delete = delete;
         }
 
-        // GET: api/Users
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserItem>>> Get()
+        [HttpGet("{Username}/{Password}")]
+        public async Task<ActionResult<IEnumerable<UserItem>>> Login(string Username, string Password)
         {
-            return await TryTask<IEnumerable<UserItem>>.Run(async() => Ok(await get.Users()));
+            return await TryTask.Run<IEnumerable<UserItem>>(async() => Ok(await get.Login(Username,Password)));
         }
 
-        // GET: api/Users/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/Users
         [HttpPost]
-        public async Task<ActionResult<UserItem>> Post([FromBody] UserItem value)
+        public async Task<ActionResult<UserItem>> PostUser([FromBody] UserItem value)
         {
-            return await TryTask<UserItem>.Run(async () => Ok(await post.User(value)));
+            return await TryTask.Run<UserItem>(async () => Ok(await post.User(value)));
         }
 
-        // PUT: api/Users/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{Username}/{Password}")]
+        public async Task<ActionResult> SetUser(string Username, string Password, [FromBody] UserItem value)
         {
+            return await TryTask.Run(async () =>
+            {
+                await put.SetUser(Username, Password, value);
+                return Ok();
+            });
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{Username}/{Password}")]
+        public async Task<ActionResult> Delete(string Username, string Password)
         {
+            return await TryTask.Run(async () =>
+            {
+                await delete.RemoveUser(Username, Password);
+                return Ok();
+            });
         }
     }
 }

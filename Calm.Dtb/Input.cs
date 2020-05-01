@@ -36,5 +36,28 @@ namespace Calm.Dtb
             _ = await context.SaveChangesAsync();
             return output.Entity;
         }
+
+        public async Task Set<T>(T item, int id) where T : class
+        {
+            var querry = context.Set<T>();
+            T output;
+            try
+            {
+                output = await querry.FindAsync(id);
+                output = item;
+            }
+            catch (Exception E)
+            {
+                throw new Exception("Input",
+                    new Exception($"New item is invalid: {E.Message}"));
+            }
+            await context.SaveChangesAsync();
+        }
+
+        public async Task Remove<T>(T item) where T : class
+        {
+            context.Set<T>().Remove(item);
+            await context.SaveChangesAsync();
+        }
     }
 }

@@ -1,8 +1,8 @@
-﻿using Calm.Dtb;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Calm.Dtb;
 
 namespace Calm.Lib
 {
@@ -15,17 +15,9 @@ namespace Calm.Lib
             this.output = output;
         }
 
-        public async Task<IEnumerable<UserItem>> Users()
+        public async Task<User> Login(string username, string password)
         {
-            var querry = await output.Get<User>();
-            var ret = new List<UserItem>();
-
-            foreach (var item in querry)
-            {
-                ret.Add(new UserItem(item));
-            }
-
-            return ret;
+            return await output.GetFind<User>(x => x.Username == username && x.Password == password);
         }
     }
 }
