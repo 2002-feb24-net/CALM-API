@@ -32,10 +32,17 @@ namespace Calm.App
         {
             services.AddControllers();
 
-            var connection = Configuration.GetConnectionString("postgre");
+            var connection = Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") != null ?
+                Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") :
+                Configuration.GetConnectionString("postgre");
 
-            services.AddScoped<IGet>(s => new Get(new Output(new CalmContext(connection))));
-            services.AddScoped<IPost>(s => new Post(new Input(new CalmContext(connection))));
+
+            services.AddDbContext<CalmContext>(s=> s.UseNpgsql(connection));
+
+            services.AddScoped<IOutput, Output>();
+            services.AddScoped<IInput,Input>();
+            services.AddScoped<IGet,Get>();
+            services.AddScoped<IPost,Post>();
 
             services.AddSwaggerGen(c =>
             {
@@ -44,7 +51,7 @@ namespace Calm.App
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CalmContext calmContext)
         {
             if (env.IsDevelopment())
             {
@@ -57,6 +64,8 @@ namespace Calm.App
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+            calmContext.Database.Migrate();
 
             app.UseHttpsRedirection();
 
