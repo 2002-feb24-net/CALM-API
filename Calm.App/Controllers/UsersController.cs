@@ -27,10 +27,16 @@ namespace Calm.App.Controllers
             Delete = delete;
         }
 
-        [HttpGet("{Username}/{Password}")]
-        public async Task<ActionResult<IEnumerable<UserItem>>> Login(string Username, string Password)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserItem>>> UserList()
         {
-            return await TryTask.Run<IEnumerable<UserItem>>(async() => Ok(await Get.Login(Username,Password)));
+            return await TryTask.Run<IEnumerable<UserItem>>(async () => Ok(await Get.UserList()));
+        }
+
+        [HttpGet("{Username}/{Password}")]
+        public async Task<ActionResult<UserItem>> Login(string Username, string Password)
+        {
+            return await TryTask.Run<UserItem>(async() => Ok(await Get.Login(Username,Password)));
         }
 
         [HttpPost]
@@ -52,11 +58,11 @@ namespace Calm.App.Controllers
         [HttpDelete("{Username}/{Password}")]
         public async Task<ActionResult> Remove(string Username, string Password)
         {
-            return await TryTask.Run((Func<Task<ActionResult>>)(async () =>
+            return await TryTask.Run(async () =>
             {
                 await this.Delete.RemoveUser(Username, Password);
                 return base.Ok();
-            }));
+            });
         }
     }
 }

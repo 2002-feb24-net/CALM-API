@@ -19,7 +19,7 @@ namespace Calm.Lib
 
         public async Task SetUser(string username, string password, UserItem value)
         {
-            var item = await Output.GetFind<User>(x => x.Username == username && x.Password == password);
+            var item = await Logic.Login(Output, username, password);
             value.Id = item.Id;
             value.IsAdmin = item.IsAdmin;
             await Input.Set(value.ToData(),item.Id);

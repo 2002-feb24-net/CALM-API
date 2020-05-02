@@ -68,6 +68,7 @@ namespace Calm.App
             });
 
             calmContext.Database.Migrate();
+            Seeder.Seed(calmContext);
 
             app.UseHttpsRedirection();
 

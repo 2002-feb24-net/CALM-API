@@ -16,7 +16,7 @@ namespace CoOp19.App
             }
             catch (Exception E)
             {
-                return new ObjectResult(new { message = "Unhandled Error In Server", error = E }) { StatusCode = 500 };
+                return Handle(E);
             }
 
             return output;
@@ -32,10 +32,23 @@ namespace CoOp19.App
             }
             catch (Exception E)
             {
-                return new ObjectResult(new { message = "Unhandled Error In Server", error = E }) { StatusCode = 500 };
+                return Handle(E);
             }
 
             return output;
+        }
+
+        public static ObjectResult Handle(Exception e)
+        {
+            try
+            {
+                int code = int.Parse(e.Message);
+                return new ObjectResult(new { message = e.InnerException.Message }) { StatusCode = code };
+            }
+            catch (Exception)
+            {
+                return new ObjectResult(new { message = "Unhandled Error In Server", error = e }) { StatusCode = 500 };
+            }
         }
     }
 }

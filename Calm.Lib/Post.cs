@@ -19,17 +19,18 @@ namespace Calm.Lib
 
         public async Task<UserItem> User(UserItem item)
         {
-            item.IsAdmin = false;
-            item.Id = (await Input.Add(item.ToData())).Id;
-            return item;
+            if (item.IsAdmin) throw new Exception("403", new Exception(
+                "cannot add an admin without existing admin credentials," +
+                " use \"api/admin/{username}/{password} with the same body\""));
+
+            return await Logic.AddUser(Output, Input, item);
         }
 
         public async Task<object> AdminUser(string username, string password, UserItem item)
         {
-            if ((await Output.GetFind<User>(x => x.Username == username && x.Password == password)).IsAdmin)
+            if ((await Logic.Login(Output, username, password)).IsAdmin)
             {
-                item.Id = (await Input.Add(item.ToData())).Id;
-                return item;
+                return await Logic.AddUser(Output, Input, item);
             }
             else
             {
