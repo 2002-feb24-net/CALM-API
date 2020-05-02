@@ -26,7 +26,7 @@ namespace Calm.Lib
 
         public async Task<object> AdminUser(string username, string password, UserItem item)
         {
-            if ((await Output.GetFind<User>(x => x.Username == username && x.Password == password)).IsAdmin)
+            if ((await Logic.Login(Output, username, password)).IsAdmin)
             {
                 item.Id = (await Input.Add(item.ToData())).Id;
                 return item;

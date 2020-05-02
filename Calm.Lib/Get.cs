@@ -15,9 +15,23 @@ namespace Calm.Lib
             this.Output = output;
         }
 
-        public async Task<User> Login(string username, string password)
+        public async Task<UserItem> Login(string username, string password)
         {
-            return await Output.GetFind<User>(x => x.Username == username && x.Password == password);
+            return new UserItem(await Logic.Login(Output, username, password));
+        }
+
+        public async Task<IEnumerable<UserItem>> UserList()
+        {
+            var data = await Output.Get<User>();
+            var ret = new List<UserItem>();
+
+            foreach (var item in data)
+            {
+                item.Password = "";
+                ret.Add(new UserItem(item));
+            }
+
+            return ret;
         }
     }
 }

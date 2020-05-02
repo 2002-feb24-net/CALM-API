@@ -6,6 +6,7 @@ namespace Calm.Lib
 {
     public interface IGet
     {
-        Task<User> Login(string username, string password);
+        Task<UserItem> Login(string username, string password);
+        Task<IEnumerable<UserItem>> UserList();
     }
 }
