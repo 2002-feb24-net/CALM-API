@@ -20,16 +20,14 @@ namespace Calm.Lib
         public async Task<UserItem> User(UserItem item)
         {
             item.IsAdmin = false;
-            item.Id = (await Input.Add(item.ToData())).Id;
-            return item;
+            return await Logic.AddUser(Output, Input, item);
         }
 
         public async Task<object> AdminUser(string username, string password, UserItem item)
         {
             if ((await Logic.Login(Output, username, password)).IsAdmin)
             {
-                item.Id = (await Input.Add(item.ToData())).Id;
-                return item;
+                return await Logic.AddUser(Output, Input, item);
             }
             else
             {
