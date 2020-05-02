@@ -43,7 +43,7 @@ namespace CoOp19.App
             try
             {
                 int code = int.Parse(e.Message);
-                return new ObjectResult(new { message = e.InnerException.Message }) { StatusCode = e };
+                return new ObjectResult(new { message = e.InnerException.Message }) { StatusCode = code };
             }
             catch (Exception)
             {
