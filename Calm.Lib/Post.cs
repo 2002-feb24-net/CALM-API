@@ -19,7 +19,10 @@ namespace Calm.Lib
 
         public async Task<UserItem> User(UserItem item)
         {
-            item.IsAdmin = false;
+            if (item.IsAdmin) throw new Exception("403", new Exception(
+                "cannot add an admin without existing admin credentials," +
+                " use \"api/admin/{username}/{password} with the same body\""));
+
             return await Logic.AddUser(Output, Input, item);
         }
 
