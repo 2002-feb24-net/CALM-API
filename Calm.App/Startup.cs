@@ -50,10 +50,20 @@ namespace Calm.App
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
-        }
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalAndAppServiceAngular", builder =>
+                    builder.WithOrigins("http://calm-client.azurewebsites.net/",
+                                        "http://localhost:4200", "https://localhost:44395")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+        
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CalmContext calmContext)
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CalmContext calmContext)
         {
             if (env.IsDevelopment())
             {
@@ -65,6 +75,7 @@ namespace Calm.App
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+
             });
 
             calmContext.Database.Migrate();
@@ -73,6 +84,9 @@ namespace Calm.App
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("AllowLocalAndAppServiceAngular");
+
 
             app.UseAuthorization();
 
