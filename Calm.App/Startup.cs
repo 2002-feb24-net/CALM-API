@@ -53,7 +53,7 @@ namespace Calm.App
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowLocalAndAppServiceAngular", builder =>
-                    builder.WithOrigins("http://calm-client.azurewebsites.net/",
+                    builder.WithOrigins("http://calm-client.azurewebsites.net/", "http://192.168.99.100:4200",
                                         "http://localhost:4200", "https://localhost:44395")
                         .AllowAnyMethod()
                         .AllowAnyHeader());
