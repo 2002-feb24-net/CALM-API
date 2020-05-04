@@ -1,4 +1,5 @@
 ﻿using Calm.Dtb;
+using Calm.Dtb.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,8 +22,34 @@ namespace Calm.Lib
         {
             var item = await Logic.Login(Output, username, password);
             value.Id = item.Id;
-            value.IsAdmin = item.IsAdmin;
+            value.IsAdmin = await Logic.CheckAdmin(Output, username, password);
             await Input.Set(value.ToData(),item.Id);
+        }
+
+        public async Task SwapUserStatus(string username, string password, string subjectUsername)
+        {
+            if (!await Logic.CheckAdmin(Output, username, password))
+            {
+                throw new Exception("400", new Exception("to set another users admin status, the credentials for an existing admin user must be provided"));
+            }
+
+            bool isAdmin = null != await Output.GetFind<AdminInfo>(x => x.user.Username == subjectUsername);
+
+            if (!isAdmin)
+            {
+                await Input.Add(new AdminInfo() { userId = Output.GetFind<User>(x=> x.Username == subjectUsername).Id });
+            }
+            else
+            {
+                if ((await Output.GetFind<AdminInfo>(x => x.user.Username == subjectUsername)).SuperAdmin)
+                {
+                    await Input.Remove(Output.GetFind<AdminInfo>(x=> x.user.Username==subjectUsername));
+                }
+                else
+                {
+                    throw new Exception("400", new Exception("cannot revoke admin status without super admin credentials"));
+                }
+            }
         }
     }
 }

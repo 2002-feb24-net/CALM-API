@@ -1,4 +1,5 @@
 ﻿using Calm.Dtb;
+using Calm.Dtb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,12 @@ namespace Calm.App
         {
             if (context.Users.Count() == 0)
             {
+                context.Admins.AddRange(new AdminInfo() { SuperAdmin = true,
+                    user = new User() { FName = "admin", LName = "user", Username = "admin", Password = "admin" } });
+
                 context.Users.AddRange(
-                    new User() { FName = "admin", LName = "user", Username = "admin", Password = "admin", IsAdmin = true },
-                    new User() { FName = "timmy", LName = "jimmy", Username = "TimmyJ", Password = "TimTim", IsAdmin = true });
+                    new User() { FName = "Jimmy", LName = "Timmy", Username = "JimmyT", Password = "JimJim" },
+                    new User() { FName = "timmy", LName = "jimmy", Username = "TimmyJ", Password = "TimTim" });
             }
 
             context.SaveChanges();

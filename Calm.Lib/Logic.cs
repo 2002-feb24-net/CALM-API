@@ -1,4 +1,5 @@
 ﻿using Calm.Dtb;
+using Calm.Dtb.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,8 +20,17 @@ namespace Calm.Lib
         {
             if (!await UsernameExists(output, user.Username))
             {
-                var temp = input.Add(user.ToData()).Id;
-                user.Id = temp;
+                var inUser = user.ToData();
+                int id = 0;
+                if (user.IsAdmin)
+                {
+                    id = (await input.Add(new AdminInfo() { user = inUser })).id;
+                }
+                else
+                {
+                    id = (await input.Add(user.ToData())).Id;
+                }
+                user.Id = id;
                 return user;
             }
             else
@@ -31,5 +41,14 @@ namespace Calm.Lib
 
         public async static Task<bool> UsernameExists(IOutput output, string username)
             => await output.GetFind<User>(x => x.Username == username) != null;
+
+        public async static Task<bool> CheckAdmin(IOutput output, string username, string password)
+        {
+            await Login(output, username, password);
+            return await CheckAdmin(output, username);
+        }
+
+        public async static Task<bool> CheckAdmin(IOutput output, string username)
+            => await output.GetFind<AdminInfo>(x => x.user.Username == username) != null;
     }
 }

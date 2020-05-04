@@ -18,7 +18,5 @@ namespace Calm.Dtb
 
         [MaxLength(50)]
         public string Password { get; set; }
-
-        public bool IsAdmin { get; set; }
     }
 }
