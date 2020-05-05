@@ -14,7 +14,7 @@ namespace Calm.Lib.Items
                 Title = Title,
                 occurrenceData = occurrenceData,
                 details = details,
-                organizer = user.user
+                organizerId = user.id
             };
         }
 

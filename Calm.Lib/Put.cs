@@ -22,7 +22,6 @@ namespace Calm.Lib
         public async Task SetUser(string username, string password, UserItem value)
         {
             var item = await Logic.Login(Output, username, password);
-            value.Id = item.Id;
             value.IsAdmin = await Logic.CheckAdmin(Output, username, password);
             await Input.Set(value.ToData(),item.Id);
         }

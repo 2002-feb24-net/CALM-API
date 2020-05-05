@@ -21,16 +21,14 @@ namespace Calm.Lib
             if (!await UsernameExists(output, user.Username))
             {
                 var inUser = user.ToData();
-                int id = 0;
                 if (user.IsAdmin)
                 {
-                    id = (await input.Add(new AdminInfo() { user = inUser })).id;
+                    await input.Add(new AdminInfo() { user = inUser });
                 }
                 else
                 {
-                    id = (await input.Add(user.ToData())).Id;
+                    await input.Add(user.ToData());
                 }
-                user.Id = id;
                 return user;
             }
             else

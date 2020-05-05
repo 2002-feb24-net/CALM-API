@@ -8,7 +8,6 @@ namespace Calm.Lib
 
         public UserItem(User item, bool IsAdmin)
         {
-            Id = item.Id;
             FName = item.FName;
             LName = item.LName;
             Username = item.Username;
@@ -20,15 +19,12 @@ namespace Calm.Lib
         {
             return new User()
             {
-                Id = this.Id,
                 FName = this.FName,
                 LName = this.LName,
                 Username = this.Username,
                 Password = this.Password
             };
         }
-
-        public int Id { get; set; }
 
         public string FName { get; set; }
 

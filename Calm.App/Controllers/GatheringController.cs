@@ -53,7 +53,7 @@ namespace Calm.App.Controllers
             });
         }
 
-        [HttpGet("{username}/{password}/{title}")]
+        [HttpPost("{username}/{password}/{title}")]
         public async Task<ActionResult> Enroll(string username, string password, string title)
         {
             return await TryTask.Run(async () =>

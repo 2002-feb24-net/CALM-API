@@ -62,9 +62,8 @@ namespace Calm.Lib
             {
                 throw new Exception("400", new Exception("a gathering with the title \""+title+"\" does not exist"));
             }
-            await Logic.Login(Output, username, password);
-            gathering.atendees.Add(await Output.GetFind<User>(x=> x.Username == username));
-            await Input.Set(gathering, gathering.id);
+            var user = await Logic.Login(Output, username, password);
+            await Input.Add(new Link() { userId = user.Id, gatheringId = gathering.id });
         }
     }
 }

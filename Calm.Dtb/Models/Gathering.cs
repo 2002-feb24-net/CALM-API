@@ -12,7 +12,8 @@ namespace Calm.Dtb.Models
         public string Title { get; set; }
         public string occurrenceData { get; set; }
         public string details { get; set; }
+        public int organizerId { get; set; }
         public User organizer { get; set; }
-        public List<User> atendees { get; set; }
+        public List<Link> links { get; set; }
     }
 }

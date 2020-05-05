@@ -42,6 +42,11 @@ namespace Calm.Lib
             var ret = new List<GatheringItemOut>();
             foreach (var item in query)
             {
+                item.organizer = await Output.Get<User>(item.organizerId);
+                foreach (var tag in await Output.GetFilter<Link>(x=> x.gatheringId == item.id))
+                {
+                    tag.user = await Output.Get<User>(tag.userId);
+                }
                 ret.Add(new GatheringItemOut(item));
             }
             return ret;

@@ -2,6 +2,7 @@
 using Calm.Dtb.Models;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,6 +33,11 @@ namespace Calm.Lib
             if (item == null)
             {
                 throw new Exception("400", new Exception("Gathering Title is incorect"));
+            }
+
+            foreach (var tag in await Output.GetFilter<Link>(x=> x.gatheringId == item.id))
+            {
+                await Input.Remove(tag);
             }
 
             await Input.Remove(item);
