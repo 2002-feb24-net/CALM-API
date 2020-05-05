@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Calm.Dtb;
+using Calm.Dtb.Models;
+using Calm.Lib.Items;
 
 namespace Calm.Lib
 {
@@ -31,6 +33,17 @@ namespace Calm.Lib
                 ret.Add(new UserItem(item, await Logic.CheckAdmin(Output, item.Username)));
             }
 
+            return ret;
+        }
+
+        public async Task<IEnumerable<GatheringItemOut>> ListGatherings()
+        {
+            var query = await Output.Get<Gathering>();
+            var ret = new List<GatheringItemOut>();
+            foreach (var item in query)
+            {
+                ret.Add(new GatheringItemOut(item));
+            }
             return ret;
         }
     }

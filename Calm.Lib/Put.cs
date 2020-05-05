@@ -1,5 +1,6 @@
 ﻿using Calm.Dtb;
 using Calm.Dtb.Models;
+using Calm.Lib.Items;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,7 +31,8 @@ namespace Calm.Lib
         {
             if (!await Logic.CheckAdmin(Output, username, password))
             {
-                throw new Exception("400", new Exception("to set another users admin status, the credentials for an existing admin user must be provided"));
+                throw new Exception("400", new Exception("to set another users admin status," +
+                    " the credentials for an existing admin user must be provided"));
             }
 
             bool isAdmin = null != await Output.GetFind<AdminInfo>(x => x.user.Username == subjectUsername);
@@ -47,9 +49,32 @@ namespace Calm.Lib
                 }
                 else
                 {
-                    throw new Exception("400", new Exception("cannot revoke admin status without super admin credentials"));
+                    throw new Exception("400", new Exception(
+                        "cannot revoke admin status without super admin credentials"));
                 }
             }
+        }
+
+        public async Task EditGatheringInfo(string username, string password, string formerTitle, GatheringItemIn gathering)
+        {
+            var subject = await Output.GetFind<Gathering>(x => x.Title == formerTitle);
+            if (subject == null)
+            {
+                throw new Exception("400", new Exception("subject cannot be found"));
+            }
+            if (subject.organizer.Username != (await Logic.Login(Output, username, password)).Username)
+            {
+                throw new Exception("400", new Exception("only the orginizer can edit the gathering item"));
+            }
+            if (null != await Output.GetFind<Gathering>(x=> x.Title == gathering.Title))
+            {
+                throw new Exception("400", new Exception("given title \""+gathering.Title+"\" is allready used"));
+            }
+            subject.Title = gathering.Title;
+            subject.occurrenceData = gathering.occurrenceData;
+            subject.details = gathering.occurrenceData;
+
+            await Input.Set(subject, subject.id);
         }
     }
 }
