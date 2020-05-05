@@ -30,7 +30,7 @@ namespace Calm.Dtb
             }
             catch (Exception E)
             {
-                throw new Exception("Input",
+                throw new Exception("400",
                     new Exception($"New item is invalid: {E.Message}"));
             }
             await context.SaveChangesAsync();
@@ -48,7 +48,7 @@ namespace Calm.Dtb
             }
             catch (Exception E)
             {
-                throw new Exception("Input",
+                throw new Exception("400",
                     new Exception($"New item is invalid: {E.Message}"));
             }
             await context.SaveChangesAsync();

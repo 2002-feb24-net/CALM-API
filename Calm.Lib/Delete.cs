@@ -1,4 +1,5 @@
 ﻿using Calm.Dtb;
+using Calm.Dtb.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,6 +21,19 @@ namespace Calm.Lib
         public async Task RemoveUser(string username, string password)
         {
             var item = await Logic.Login(Output, username, password);
+            await Input.Remove(item);
+        }
+
+        public async Task RemoveGathering(string username, string password, string title)
+        {
+            await Logic.Login(Output, username, password);
+            var item = await Output.GetFind<Gathering>(x=> x.Title == title);
+
+            if (item == null)
+            {
+                throw new Exception("400", new Exception("Gathering Title is incorect"));
+            }
+
             await Input.Remove(item);
         }
     }

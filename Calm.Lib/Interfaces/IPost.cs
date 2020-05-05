@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Calm.Lib.Items;
+using System.Threading.Tasks;
 
 namespace Calm.Lib
 {
@@ -6,5 +7,7 @@ namespace Calm.Lib
     {
         Task<UserItem> User(UserItem item);
         Task<object> AdminUser(string username, string password, UserItem value);
+        Task AddGathering(string username, string password, GatheringItemIn gathering);
+        Task Enter(string username, string password, string title);
     }
 }

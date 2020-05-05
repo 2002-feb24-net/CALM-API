@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Calm.Dtb.Models
 {
-    class Gathering
+    public class Gathering
     {
         [Key]
         public int id { get; set; }
