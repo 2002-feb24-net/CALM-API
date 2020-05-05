@@ -47,7 +47,7 @@ namespace Calm.Lib
             {
                 throw new Exception("400", new Exception("this request must be made with admin permitions"));
             }
-            if (null == await Output.GetFind<Gathering>(x=> x.Title == gathering.Title))
+            if (null != await Output.GetFind<Gathering>(x=> x.Title == gathering.Title))
             {
                 throw new Exception("400", new Exception("A gathering of this title allready exists"));
             }
