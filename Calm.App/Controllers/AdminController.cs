@@ -30,5 +30,15 @@ namespace Calm.App.Controllers
         {
             return await TryTask.Run<UserItem>(async () => Ok(await Post.AdminUser(Username, Password, value)));
         }
+
+        [HttpPut("{Username}/{Password}/{subjectUser}")]
+        public async Task<ActionResult<UserItem>> SwapUserStatus(string Username, string Password, string subjectUser)
+        {
+            return await TryTask.Run(async () =>
+            {
+                await Put.SwapUserStatus(Username, Password, subjectUser);
+                return Ok();
+            });
+        }
     }
 }

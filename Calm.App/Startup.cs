@@ -78,6 +78,7 @@ namespace Calm.App
 
             });
 
+            calmContext.Database.EnsureDeleted();
             calmContext.Database.Migrate();
             Seeder.Seed(calmContext);
 

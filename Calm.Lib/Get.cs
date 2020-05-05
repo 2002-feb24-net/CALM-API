@@ -17,7 +17,7 @@ namespace Calm.Lib
 
         public async Task<UserItem> Login(string username, string password)
         {
-            return new UserItem(await Logic.Login(Output, username, password));
+            return new UserItem(await Logic.Login(Output, username, password), false);
         }
 
         public async Task<IEnumerable<UserItem>> UserList()
@@ -28,7 +28,7 @@ namespace Calm.Lib
             foreach (var item in data)
             {
                 item.Password = "";
-                ret.Add(new UserItem(item));
+                ret.Add(new UserItem(item, await Logic.CheckAdmin(Output, item.Username)));
             }
 
             return ret;

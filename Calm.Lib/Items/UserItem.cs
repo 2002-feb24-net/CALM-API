@@ -6,14 +6,14 @@ namespace Calm.Lib
     {
         public UserItem() { }
 
-        public UserItem(User item)
+        public UserItem(User item, bool IsAdmin)
         {
             Id = item.Id;
             FName = item.FName;
             LName = item.LName;
             Username = item.Username;
             Password = item.Password;
-            IsAdmin = item.IsAdmin;
+            this.IsAdmin = IsAdmin;
         }
 
         public User ToData()
@@ -24,8 +24,7 @@ namespace Calm.Lib
                 FName = this.FName,
                 LName = this.LName,
                 Username = this.Username,
-                Password = this.Password,
-                IsAdmin = this.IsAdmin
+                Password = this.Password
             };
         }
 

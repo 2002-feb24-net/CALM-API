@@ -28,7 +28,7 @@ namespace Calm.Lib
 
         public async Task<object> AdminUser(string username, string password, UserItem item)
         {
-            if ((await Logic.Login(Output, username, password)).IsAdmin)
+            if (await Logic.CheckAdmin(Output, username, password))
             {
                 return await Logic.AddUser(Output, Input, item);
             }
