@@ -1,4 +1,5 @@
 ﻿using Calm.Dtb;
+using System.ComponentModel.DataAnnotations;
 
 namespace Calm.Lib
 {
@@ -8,7 +9,6 @@ namespace Calm.Lib
 
         public UserItem(User item, bool IsAdmin)
         {
-            Id = item.Id;
             FName = item.FName;
             LName = item.LName;
             Username = item.Username;
@@ -20,7 +20,6 @@ namespace Calm.Lib
         {
             return new User()
             {
-                Id = this.Id,
                 FName = this.FName,
                 LName = this.LName,
                 Username = this.Username,
@@ -28,14 +27,15 @@ namespace Calm.Lib
             };
         }
 
-        public int Id { get; set; }
-
+        [Required]
         public string FName { get; set; }
 
         public string LName { get; set; }
 
+        [Required]
         public string Username { get; set; }
 
+        [Required]
         public string Password { get; set; }
 
         public bool IsAdmin { get; set; }

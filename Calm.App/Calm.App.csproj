@@ -21,5 +21,10 @@
     <ProjectReference Include="..\Calm.Lib\Calm.Lib.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using Calm.Dtb.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Calm.Lib.Items
@@ -14,11 +15,13 @@ namespace Calm.Lib.Items
                 Title = Title,
                 occurrenceData = occurrenceData,
                 details = details,
-                organizer = user.user
+                organizerId = user.id
             };
         }
 
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string occurrenceData { get; set; }
         public string details { get; set; }
     }

@@ -2,15 +2,17 @@
 using Calm.Dtb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Calm.Dtb.Migrations
 {
     [DbContext(typeof(CalmContext))]
-    partial class CalmContextModelSnapshot : ModelSnapshot
+    [Migration("20200505185223_addedtogatherings")]
+    partial class addedtogatherings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

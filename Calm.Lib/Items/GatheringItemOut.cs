@@ -13,14 +13,15 @@ namespace Calm.Lib.Items
             occurrenceData = data.occurrenceData;
             details = data.details;
             organizer = new UserItem(data.organizer, true);
+            atendees = new List<UserItem>();
 
-            foreach (var item in data.atendees)
+            foreach (var item in data.links)
             {
                 var user = new UserItem()
                 {
-                    FName = item.FName,
-                    LName = item.LName,
-                    Username = item.Username,
+                    FName = item.user.FName,
+                    LName = item.user.LName,
+                    Username = item.user.Username,
                     IsAdmin = false,
                     Password = "the password and isadmin status are both inaccesable in this request"
                 };

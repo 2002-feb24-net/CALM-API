@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Calm.Dtb;
 using Calm.Dtb.Models;
@@ -19,7 +20,7 @@ namespace Calm.Lib
 
         public async Task<UserItem> Login(string username, string password)
         {
-            return new UserItem(await Logic.Login(Output, username, password), false);
+            return new UserItem(await Logic.Login(Output, username, password), null != await Output.GetFind<AdminInfo>(x=> x.user.Username == username));
         }
 
         public async Task<IEnumerable<UserItem>> UserList()
@@ -42,6 +43,11 @@ namespace Calm.Lib
             var ret = new List<GatheringItemOut>();
             foreach (var item in query)
             {
+                item.organizer = await Output.Get<User>(item.organizerId);
+                foreach (var tag in await Output.GetFilter<Link>(x=> x.gatheringId == item.id))
+                {
+                    tag.user = await Output.Get<User>(tag.userId);
+                }
                 ret.Add(new GatheringItemOut(item));
             }
             return ret;

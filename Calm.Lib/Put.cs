@@ -22,7 +22,6 @@ namespace Calm.Lib
         public async Task SetUser(string username, string password, UserItem value)
         {
             var item = await Logic.Login(Output, username, password);
-            value.Id = item.Id;
             value.IsAdmin = await Logic.CheckAdmin(Output, username, password);
             await Input.Set(value.ToData(),item.Id);
         }
@@ -31,7 +30,7 @@ namespace Calm.Lib
         {
             if (!await Logic.CheckAdmin(Output, username, password))
             {
-                throw new Exception("400", new Exception("to set another users admin status," +
+                throw new Exception("403", new Exception("to set another users admin status," +
                     " the credentials for an existing admin user must be provided"));
             }
 
@@ -49,7 +48,7 @@ namespace Calm.Lib
                 }
                 else
                 {
-                    throw new Exception("400", new Exception(
+                    throw new Exception("403", new Exception(
                         "cannot revoke admin status without super admin credentials"));
                 }
             }
@@ -60,15 +59,15 @@ namespace Calm.Lib
             var subject = await Output.GetFind<Gathering>(x => x.Title == formerTitle);
             if (subject == null)
             {
-                throw new Exception("400", new Exception("subject cannot be found"));
+                throw new Exception("404", new Exception("subject cannot be found"));
             }
             if (subject.organizer.Username != (await Logic.Login(Output, username, password)).Username)
             {
-                throw new Exception("400", new Exception("only the orginizer can edit the gathering item"));
+                throw new Exception("403", new Exception("only the orginizer can edit the gathering item"));
             }
             if (null != await Output.GetFind<Gathering>(x=> x.Title == gathering.Title))
             {
-                throw new Exception("400", new Exception("given title \""+gathering.Title+"\" is allready used"));
+                throw new Exception("409", new Exception("given title \""+gathering.Title+"\" is allready used"));
             }
             subject.Title = gathering.Title;
             subject.occurrenceData = gathering.occurrenceData;

@@ -12,7 +12,7 @@ namespace Calm.Lib
         public async static Task<User> Login(IOutput output, string username, string password)
         {
             var ret = await output.GetFind<User>(x => x.Username == username && x.Password == password);
-            if (ret == null) throw new Exception("404", new Exception("User is not found"));
+            if (ret == null) throw new Exception("401", new Exception("User is not found"));
             return ret;
         }
 
@@ -21,21 +21,19 @@ namespace Calm.Lib
             if (!await UsernameExists(output, user.Username))
             {
                 var inUser = user.ToData();
-                int id = 0;
                 if (user.IsAdmin)
                 {
-                    id = (await input.Add(new AdminInfo() { user = inUser })).id;
+                    await input.Add(new AdminInfo() { user = inUser });
                 }
                 else
                 {
-                    id = (await input.Add(user.ToData())).Id;
+                    await input.Add(user.ToData());
                 }
-                user.Id = id;
                 return user;
             }
             else
             {
-                throw new Exception("400", new Exception("username is taken"));
+                throw new Exception("409", new Exception("username is taken"));
             }
         }
 

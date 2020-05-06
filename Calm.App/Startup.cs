@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Calm.Dtb;
 using Calm.Lib;
@@ -48,7 +50,16 @@ namespace Calm.App
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v0", new OpenApiInfo
+                {
+                    Version = "v0",
+                    Title = "C.A.L.M. API",
+                    Description = "an api for the C.A.L.M. web service"
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
             services.AddCors(options =>
             {
@@ -74,8 +85,7 @@ namespace Calm.App
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-
+                c.SwaggerEndpoint("/swagger/v0/swagger.json", "My API V1");
             });
 
             calmContext.Database.EnsureDeleted();
