@@ -57,12 +57,16 @@ namespace Calm.Lib
 
         public async Task Enter(string username, string password, string title)
         {
+            var user = await Logic.Login(Output, username, password);
             var gathering = await Output.GetFind<Gathering>(x=> x.Title == title);
             if (gathering == null)
             {
                 throw new Exception("404", new Exception("a gathering with the title \""+title+"\" does not exist"));
             }
-            var user = await Logic.Login(Output, username, password);
+            if ((await Output.GetFind<Link>(x=> x.userId == user.Id && x.gatheringId == gathering.id)) != null)
+            {
+                throw new Exception("409", new Exception("this user is allready signed up for this gathering"));
+            }
             await Input.Add(new Link() { userId = user.Id, gatheringId = gathering.id });
         }
     }

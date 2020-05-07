@@ -20,6 +20,8 @@ namespace Calm.Lib.Items
         }
 
         [Required]
+        public string City { get; set; }
+        [Required]
         public string Title { get; set; }
         [Required]
         public string occurrenceData { get; set; }

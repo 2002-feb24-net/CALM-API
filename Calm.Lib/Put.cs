@@ -69,6 +69,7 @@ namespace Calm.Lib
             {
                 throw new Exception("409", new Exception("given title \""+gathering.Title+"\" is allready used"));
             }
+            subject.MapDataId = await Logic.CityId(Output, gathering.City);
             subject.Title = gathering.Title;
             subject.occurrenceData = gathering.occurrenceData;
             subject.details = gathering.occurrenceData;

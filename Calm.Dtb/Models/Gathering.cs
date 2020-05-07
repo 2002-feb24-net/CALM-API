@@ -14,6 +14,8 @@ namespace Calm.Dtb.Models
         public string details { get; set; }
         public int organizerId { get; set; }
         public User organizer { get; set; }
+        public int MapDataId { get; set; }
+        public Mapdata MapData { get; set; }
         public List<Link> links { get; set; }
     }
 }

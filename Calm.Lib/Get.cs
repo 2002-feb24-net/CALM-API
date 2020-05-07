@@ -20,7 +20,7 @@ namespace Calm.Lib
 
         public async Task<UserItem> Login(string username, string password)
         {
-            return new UserItem(await Logic.Login(Output, username, password), null != await Output.GetFind<AdminInfo>(x=> x.user.Username == username));
+            return await Logic.PopulateItem(Output, await Logic.Login(Output, username, password));
         }
 
         public async Task<IEnumerable<UserItem>> UserList()
@@ -31,7 +31,7 @@ namespace Calm.Lib
             foreach (var item in data)
             {
                 item.Password = "";
-                ret.Add(new UserItem(item, await Logic.CheckAdmin(Output, item.Username)));
+                ret.Add(await Logic.PopulateItem(Output, item));
             }
 
             return ret;
@@ -48,7 +48,50 @@ namespace Calm.Lib
                 {
                     tag.user = await Output.Get<User>(tag.userId);
                 }
-                ret.Add(new GatheringItemOut(item));
+                ret.Add(await Logic.PopulateItem(Output, item));
+            }
+            return ret;
+        }
+
+        public async Task<IEnumerable<string>> CityList()
+        {
+            var objs = await Output.Get<Mapdata>();
+            var ret = new List<string>();
+            foreach (var item in objs)
+            {
+                ret.Add(item.city);
+            }
+            return ret;
+        }
+
+        public async Task<IEnumerable<UserItem>> CityListUsers(string city)
+        {
+            int id = await Logic.CityId(Output, city);
+            var data = await Output.GetFilter<User>(x=> x.MapDataId == id);
+            var ret = new List<UserItem>();
+            foreach (var item in data)
+            {
+                UserItem retItem = await Logic.PopulateItem(Output, item);
+                retItem.Password = "";
+                ret.Add(retItem);
+            }
+            return ret;
+        }
+
+        public async Task<IEnumerable<GatheringItemOut>> CityListGatherings(string city)
+        {
+            int id = await Logic.CityId(Output, city);
+            var data = await Output.GetFilter<Gathering>(x => x.MapDataId == id);
+            var ret = new List<GatheringItemOut>();
+            foreach (var item in data)
+            {
+                GatheringItemOut retItem = await Logic.PopulateItem(Output, item);
+                retItem.organizer.Password = "";
+                foreach (var item2 in retItem.atendees)
+                {
+                    item2.Password = "";
+                }
+                ret.Add(retItem);
             }
             return ret;
         }
