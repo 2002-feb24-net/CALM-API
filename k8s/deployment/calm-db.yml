@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calm-db
+  labels:
+    app: calm
+    role: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calm
+      role: db
+  template:
+    metadata:
+      labels:
+        app: calm
+        role: db
+    spec:
+      containers:
+      - name: calm-db
+        image: brendanngoran/calmapi:1.0
+        ports:
+        - containerPort: 5432
