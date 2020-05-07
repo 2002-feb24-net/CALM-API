@@ -7,15 +7,6 @@ namespace Calm.Lib
     {
         public UserItem() { }
 
-        public UserItem(User item, bool IsAdmin)
-        {
-            FName = item.FName;
-            LName = item.LName;
-            Username = item.Username;
-            Password = item.Password;
-            this.IsAdmin = IsAdmin;
-        }
-
         public User ToData()
         {
             return new User()
@@ -23,9 +14,12 @@ namespace Calm.Lib
                 FName = this.FName,
                 LName = this.LName,
                 Username = this.Username,
-                Password = this.Password
+                Password = this.Password,
             };
         }
+
+        [Required]
+        public string City { get; set; }
 
         [Required]
         public string FName { get; set; }

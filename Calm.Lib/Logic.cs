@@ -1,5 +1,6 @@
 ﻿using Calm.Dtb;
 using Calm.Dtb.Models;
+using Calm.Lib.Items;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -48,5 +49,38 @@ namespace Calm.Lib
 
         public async static Task<bool> CheckAdmin(IOutput output, string username)
             => await output.GetFind<AdminInfo>(x => x.user.Username == username) != null;
+
+        public async static Task<UserItem> PopulateItem(IOutput output, User user)
+        {
+            return new UserItem()
+            {
+                FName = user.FName,
+                LName = user.LName,
+                Username = user.Username,
+                Password = user.Password,
+                City = (await output.Get<Mapdata>(user.MapDataId)).city,
+                IsAdmin = null != (await output.GetFind<AdminInfo>(x => x.userId == user.Id))
+            };
+        }
+
+        public async static Task<GatheringItemOut> PopulateItem(IOutput output, Gathering item)
+        {
+            var links = await output.GetFilter<Link>(x => x.gatheringId == item.id);
+            var users = new List<UserItem>();
+            foreach (var i in links)
+            {
+                users.Add(await PopulateItem(output, i.user));
+            }
+
+            return new GatheringItemOut()
+            {
+                Title = item.Title,
+                occurrenceData = item.occurrenceData,
+                City = (await output.Get<Mapdata>(item.MapDataId)).city,
+                details = item.details,
+                organizer = await PopulateItem(output, await output.Get<User>(item.organizerId)),
+                atendees = users
+            };
+        }
     }
 }

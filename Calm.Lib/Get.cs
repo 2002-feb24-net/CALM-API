@@ -20,7 +20,7 @@ namespace Calm.Lib
 
         public async Task<UserItem> Login(string username, string password)
         {
-            return new UserItem(await Logic.Login(Output, username, password), null != await Output.GetFind<AdminInfo>(x=> x.user.Username == username));
+            return await Logic.PopulateItem(Output, await Logic.Login(Output, username, password));
         }
 
         public async Task<IEnumerable<UserItem>> UserList()
@@ -31,7 +31,7 @@ namespace Calm.Lib
             foreach (var item in data)
             {
                 item.Password = "";
-                ret.Add(new UserItem(item, await Logic.CheckAdmin(Output, item.Username)));
+                ret.Add(await Logic.PopulateItem(Output, item));
             }
 
             return ret;
@@ -48,7 +48,7 @@ namespace Calm.Lib
                 {
                     tag.user = await Output.Get<User>(tag.userId);
                 }
-                ret.Add(new GatheringItemOut(item));
+                ret.Add(await Logic.PopulateItem(Output, item));
             }
             return ret;
         }
