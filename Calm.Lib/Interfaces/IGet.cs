@@ -23,5 +23,22 @@ namespace Calm.Lib
         /// </summary>
         /// <returns>list of gatherings</returns>
         Task<IEnumerable<GatheringItemOut>> ListGatherings();
+        /// <summary>
+        /// list all citys
+        /// </summary>
+        /// <returns>list of citys</returns>
+        Task<IEnumerable<string>> CityList();
+        /// <summary>
+        /// querys all users for their city
+        /// </summary>
+        /// <param name="city">name of city</param>
+        /// <returns>list of users</returns>
+        Task<IEnumerable<UserItem>> CityListUsers(string city);
+        /// <summary>
+        /// querys all gatherings for their city
+        /// </summary>
+        /// <param name="city">name of city</param>
+        /// <returns>list of gatherings</returns>
+        Task<IEnumerable<GatheringItemOut>> CityListGatherings(string city);
     }
 }

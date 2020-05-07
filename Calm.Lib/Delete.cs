@@ -22,6 +22,10 @@ namespace Calm.Lib
         public async Task RemoveUser(string username, string password)
         {
             var item = await Logic.Login(Output, username, password);
+            foreach (var link in await Output.GetFilter<Link>(x=> x.userId == item.Id))
+            {
+                await Input.Remove(link);
+            }
             await Input.Remove(item);
         }
 

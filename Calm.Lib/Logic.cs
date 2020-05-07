@@ -50,6 +50,16 @@ namespace Calm.Lib
         public async static Task<bool> CheckAdmin(IOutput output, string username)
             => await output.GetFind<AdminInfo>(x => x.user.Username == username) != null;
 
+        public async static Task<int> CityId(IOutput output, string City)
+        {
+            var item = await output.GetFind<Mapdata>(x => x.city == City);
+            if (item == null)
+            {
+                throw new Exception("404", new Exception("City does not occur in the database"));
+            }
+            return item.Id;
+        }
+
         public async static Task<UserItem> PopulateItem(IOutput output, User user)
         {
             return new UserItem()
@@ -69,7 +79,7 @@ namespace Calm.Lib
             var users = new List<UserItem>();
             foreach (var i in links)
             {
-                users.Add(await PopulateItem(output, i.user));
+                users.Add(await PopulateItem(output, await output.Get<User>(i.userId)));
             }
 
             return new GatheringItemOut()
