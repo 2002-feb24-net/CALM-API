@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calm-api
+  labels:
+    app: calm
+    role: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calm
+      role: api
+  template:
+    metadata:
+      labels:
+        app: calm
+        role: api
+    spec:
+      containers:
+      - name: calm-api
+        image: brendanngoran/calmapi:1.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: DatabaseConnection
+          value: CalmDbPostgreSqlK8s
+        - name: ConnectionStrings__CalmDbPostgreSqlK8s
+          value: Host=calm-db;Username=postgres;Password=Pass@word
+        - name: CorsOrigins__0
+          value: http://localhost:4200
+        - name: CorsOrigins__1
+          value: http://192.168.99.100:4200
+        - name: CorsOrigins__2
+          value: http://calm-client.azurewebsites.net
+        - name: CorsOrigins__3
+          value: https://calm-client.azurewebsites.net
+        - name: CorsOrigins__4
+          value: http://calm-client-docker.azurewebsites.net
+        - name: CorsOrigins__5
+          value: https://calm-client-docker.azurewebsites.net
+        - name: CorsOrigins__6
+          value: http://a219561f758a948d793acb07ca69013c-358843724.us-east-2.elb.amazonaws.com
+        - name: UseHttpsRedirection
+          value: 'false'
