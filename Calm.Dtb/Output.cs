@@ -39,7 +39,7 @@ namespace Calm.Dtb
             var output = await context.Set<T>().FindAsync(id);
             if (output == null)
             {
-                throw new Exception("Output",
+                throw new Exception("500",
                     new Exception($"Requested item at Id:{id} In:{context.Set<T>().GetType()} does not exist"));
             }
             return await context.Set<T>().FindAsync(id);

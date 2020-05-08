@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Calm.Dtb.Models;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Calm.Dtb
 {
@@ -18,5 +20,11 @@ namespace Calm.Dtb
 
         [MaxLength(50)]
         public string Password { get; set; }
+
+        public int MapDataId { get; set; }
+
+        public Mapdata MapData { get; set; }
+
+        public List<Link> links { get; set; }
     }
 }
