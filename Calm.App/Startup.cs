@@ -90,7 +90,7 @@ namespace Calm.App
 
             // calmContext.Database.EnsureDeleted();
             // calmContext.Database.Migrate();
-            // Seeder.Seed(calmContext);
+            Seeder.Seed(calmContext);
 
             app.UseHttpsRedirection();
 
