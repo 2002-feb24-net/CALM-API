@@ -65,7 +65,7 @@ namespace Calm.App
             {
                 options.AddPolicy("AllowLocalAndAppServiceAngular", builder =>
                     builder.WithOrigins("http://calm-client.azurewebsites.net/", "http://192.168.99.100:4200",
-                                        "http://localhost:4200", "https://localhost:44395")
+                                        "http://localhost:4200", "https://localhost:44395", "http://afe294f2047fb4008a06b49b3774259e-1696975683.us-east-2.elb.amazonaws.com/")
                         .AllowAnyMethod()
                         .AllowAnyHeader());
             });
