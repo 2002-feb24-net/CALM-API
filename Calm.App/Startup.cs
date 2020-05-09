@@ -88,8 +88,8 @@ namespace Calm.App
                 c.SwaggerEndpoint("/swagger/v0/swagger.json", "My API V1");
             });
 
-            calmContext.Database.EnsureDeleted();
-            calmContext.Database.Migrate();
+            // calmContext.Database.EnsureDeleted();
+            // calmContext.Database.Migrate();
             Seeder.Seed(calmContext);
 
             app.UseHttpsRedirection();

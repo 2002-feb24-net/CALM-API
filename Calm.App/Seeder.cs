@@ -42,7 +42,7 @@ namespace Calm.App
                         occurrenceData = "the event happens st this time, or occors at  this regular interval",
                         organizerId = context.Admins.FirstOrDefault().user.Id,
                         MapDataId = 1,
-                        links = new List<Link>() { new Link() { userId = 2 }, new Link() { userId = 3 } }
+                        links = new List<Link>() {}
                     });
             }
 
