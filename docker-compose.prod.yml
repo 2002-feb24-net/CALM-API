@@ -13,7 +13,7 @@ services:
       context: .
       dockerfile: db.Dockerfile
     image: brendanngoran/calmdb:1.0
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "Password123"
-      POSTGRES_DB: "calmdb"
+    # environment:
+    #   POSTGRES_USER: "postgres"
+    #   POSTGRES_PASSWORD: "Password123"
+    #   POSTGRES_DB: "calmdb"

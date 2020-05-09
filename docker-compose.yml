@@ -23,7 +23,7 @@ services:
     networks:
       - default
     environment:
-      # DatabaseConnection: CalmDbPostgreSqlDockerCompose
+      DatabaseConnection: CalmDbPostgreSqlDockerCompose
       ConnectionStrings__CalmDbPostgreSqlDockerCompose: "host=data;port=5432;database=calmdb;username=postgres;password=Password123"
       # EnsureDatabaseCreated: 'true'
       # CorsOrigins__0: http://localhost:4200

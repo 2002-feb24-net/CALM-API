@@ -20,8 +20,8 @@ RUN dotnet ef migrations script -p Calm.Dtb -s Calm.App -o init-db.sql
 FROM postgres:12.0
 WORKDIR /docker-entrypoint-initdb.d
 
-# ENV POSTGRES_USER "postgres"
-# ENV POSTGRES_PASSWORD "Password123"
+ENV POSTGRES_USER "postgres"
+ENV POSTGRES_PASSWORD "Password123"
 # ENV POSTGRES_DB "calmdb"
 
 COPY --from=build-env /app/init-db.sql .

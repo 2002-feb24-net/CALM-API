@@ -32,14 +32,38 @@ namespace Calm.App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string whichDb = Configuration["DatabaseConnection"];
+            if (whichDb is null)
+            {
+                throw new InvalidOperationException($"No value found for \"DatabaseConnection\"; unable to connect to a database.");
+            }
+
+            string connection = Configuration.GetConnectionString(whichDb);
+            if (connection is null)
+            {
+                throw new InvalidOperationException($"No value found for \"{whichDb}\" connection; unable to connect to a database.");
+            }
+
+            if (whichDb.Contains("PostgreSql", StringComparison.InvariantCultureIgnoreCase))
+            {
+                services.AddDbContext<CalmContext>(options =>
+                    options.UseNpgsql(connection));
+            }
+            // else
+            // {
+            //     services.AddDbContext<CalmContext>(options =>
+            //         options.UseSqlServer(connection));
+            // }
+
+
             services.AddControllers();
 
-            var connection = 
-                Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") ?? 
-                Configuration.GetConnectionString("postgre");
+            // var connection = 
+            //     Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") ?? 
+            //     Configuration.GetConnectionString("postgre");
 
 
-            services.AddDbContext<CalmContext>(s=> s.UseNpgsql(connection));
+            // services.AddDbContext<CalmContext>(s=> s.UseNpgsql(connection));
 
             services.AddScoped<IOutput, Output>();
             services.AddScoped<IInput,Input>();
@@ -81,6 +105,17 @@ namespace Calm.App
                 app.UseDeveloperExceptionPage();
             }
 
+            if (Configuration.GetValue("UseHttpsRedirection", defaultValue: true) is true)
+            {
+                app.UseHttpsRedirection();
+            }
+
+            app.UseRouting();
+
+            app.UseCors("AllowLocalAndAppServiceAngular");
+
+            app.UseAuthorization();
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
@@ -91,16 +126,7 @@ namespace Calm.App
             // calmContext.Database.EnsureDeleted();
             // calmContext.Database.Migrate();
             Seeder.Seed(calmContext);
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseCors("AllowLocalAndAppServiceAngular");
-
-
-            app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
