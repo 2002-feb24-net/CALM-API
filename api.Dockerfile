@@ -6,7 +6,7 @@ COPY *.sln ./
 COPY Calm.App/*.csproj Calm.App/
 COPY Calm.Lib/*.csproj Calm.Lib/
 COPY Calm.Dtb/*.csproj Calm.Dtb/
-# COPY Calm.UnitTests/*.csproj Calm.UnitTests/
+COPY Calm.Test/*.csproj Calm.Test/
 RUN dotnet restore
 
 # Copy everything else and build

@@ -38,7 +38,7 @@ namespace Calm.Lib
             {
                 throw new Exception("404", new Exception("Gathering Title is incorect"));
             }
-            if (item.organizerId == id || null != await Output.GetFind<AdminInfo>(x=> x.SuperAdmin && x.userId == id))
+            if (!(item.organizerId == id || null != await Output.GetFind<AdminInfo>(x=> x.SuperAdmin && x.userId == id)))
             {
                 throw new Exception("403", new Exception("User is not the gathering organiser"));
             }
