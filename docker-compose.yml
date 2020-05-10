@@ -15,7 +15,7 @@ services:
     build: 
       context: .
       dockerfile: api.Dockerfile
-    image: calmapi:1.0
+    image: brendanngoran/calmapi:1.0
     depends_on:
       - "data"
     ports:
@@ -34,17 +34,17 @@ services:
     build: 
       context: .
       dockerfile: db.Dockerfile
-    image: postgres:12.0
+    image: brendanngoran/calmdb:1.0
     ports:
       - 5432:5432
-    restart: always
+    # restart: always
     networks:
       - default
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "Password123"
-      POSTGRES_DB: "calmdb"
+    # environment:
+    #   POSTGRES_USER: "postgres"
+    #   POSTGRES_PASSWORD: "Password123"
+    #   POSTGRES_DB: "calmdb"
 
 networks:
   default:
-    driver: bridge
+    # driver: bridge

@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: calm-db
-        image: brendanngoran/calmapi:1.0
+        image: brendanngoran/calmdb:1.0
         imagePullPolicy: Always
         ports:
         - containerPort: 5432
