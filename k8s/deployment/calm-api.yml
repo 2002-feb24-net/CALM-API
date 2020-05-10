@@ -20,6 +20,7 @@ spec:
       containers:
       - name: calm-api
         image: brendanngoran/calmapi:1.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         env:
