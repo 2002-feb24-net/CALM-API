@@ -22,13 +22,14 @@ namespace Calm.Lib
             if (!await UsernameExists(output, user.Username))
             {
                 var inUser = user.ToData();
+                inUser.MapDataId = await CityId(output, user.City);
                 if (user.IsAdmin)
                 {
                     await input.Add(new AdminInfo() { user = inUser });
                 }
                 else
                 {
-                    await input.Add(user.ToData());
+                    await input.Add(inUser);
                 }
                 return user;
             }
