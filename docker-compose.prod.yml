@@ -3,30 +3,14 @@ version: '3.7'
 services:
 
   web:
-    build: .
+    build: 
+      context: .
+      dockerfile: api.Dockerfile
     image: brendanngoran/calmapi:1.0
-    depends_on:
-      - data
-    ports:
-      - 80:80
-    networks:
-      - default
-    environment:
-      DatabaseConnection: CalmDbPostgreSqlDockerCompose
-      ConnectionStrings__CalmDbPostgreSqlDockerCompose: Host=data;Database=CalmDb;Username=postgres;Password=Password123
-      EnsureDatabaseCreated: 'true'
-      CorsOrigins__0: http://localhost:4200
-      CorsOrigins__1: http://192.168.99.100:4200
-      CorsOrigins__2: https://calm-api.azurewebsites.net
-      CorsOrigins__3: https://calm-client.azurewebsites.net
-      UseHttpsRedirection: 'false'
 
   data:
-    image: postgres:12.0
-    networks:
-      - default
-    environment:
-      POSTGRES_PASSWORD: Password123
+    build: 
+      context: .
+      dockerfile: db.Dockerfile
+    image: brendanngoran/calmdb:1.0
 
-networks:
-  default:

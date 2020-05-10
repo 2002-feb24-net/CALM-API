@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Calm.Dtb.Migrations
 {
     [DbContext(typeof(CalmContext))]
-    [Migration("20200510151550_total")]
+    [Migration("20200510152237_total")]
     partial class total
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
