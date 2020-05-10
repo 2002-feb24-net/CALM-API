@@ -59,13 +59,6 @@ namespace Calm.App
 
             services.AddControllers();
 
-            // var connection = 
-            //     Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") ?? 
-            //     Configuration.GetConnectionString("postgre");
-
-
-            // services.AddDbContext<CalmContext>(s=> s.UseNpgsql(connection));
-
             services.AddScoped<IOutput, Output>();
             services.AddScoped<IInput,Input>();
             services.AddScoped<IGet,Get>();
@@ -115,7 +108,7 @@ namespace Calm.App
 
             app.UseRouting();
 
-            app.UseCors("AllowLocalAndAppServiceAngular");
+            app.UseCors(CorsPolicyName);
 
             app.UseAuthorization();
 
