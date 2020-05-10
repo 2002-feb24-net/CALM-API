@@ -20,13 +20,14 @@ spec:
       containers:
       - name: calm-api
         image: brendanngoran/calmapi:1.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         env:
         - name: DatabaseConnection
           value: CalmDbPostgreSqlK8s
         - name: ConnectionStrings__CalmDbPostgreSqlK8s
-          value: Host=calm-db;Username=postgres;Password=Pass@word
+          value: host=calm-db;username=postgres;password=Password123
         - name: CorsOrigins__0
           value: http://localhost:4200
         - name: CorsOrigins__1

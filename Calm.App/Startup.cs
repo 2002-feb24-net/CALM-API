@@ -9,7 +9,7 @@ using Calm.Lib;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +22,7 @@ namespace Calm.App
 {
     public class Startup
     {
+        private const string CorsPolicyName = "AllowConfiguredOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,14 +33,38 @@ namespace Calm.App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string whichDb = Configuration["DatabaseConnection"];
+            if (whichDb is null)
+            {
+                throw new InvalidOperationException($"No value found for \"DatabaseConnection\"; unable to connect to a database.");
+            }
+
+            string connection = Configuration.GetConnectionString(whichDb);
+            if (connection is null)
+            {
+                throw new InvalidOperationException($"No value found for \"{whichDb}\" connection; unable to connect to a database.");
+            }
+
+            if (whichDb.Contains("PostgreSql", StringComparison.InvariantCultureIgnoreCase))
+            {
+                services.AddDbContext<CalmContext>(options =>
+                    options.UseNpgsql(connection));
+            }
+            // else
+            // {
+            //     services.AddDbContext<CalmContext>(options =>
+            //         options.UseSqlServer(connection));
+            // }
+
+
             services.AddControllers();
 
-            var connection = 
-                Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") ?? 
-                Configuration.GetConnectionString("postgre");
+            // var connection = 
+            //     Configuration.GetConnectionString("CalmDbPostgreSqlDockerCompose") ?? 
+            //     Configuration.GetConnectionString("postgre");
 
 
-            services.AddDbContext<CalmContext>(s=> s.UseNpgsql(connection));
+            // services.AddDbContext<CalmContext>(s=> s.UseNpgsql(connection));
 
             services.AddScoped<IOutput, Output>();
             services.AddScoped<IInput,Input>();
@@ -61,11 +86,13 @@ namespace Calm.App
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+
+            var allowedOrigins = Configuration.GetSection("CorsOrigins").Get<string[]>();
+
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowLocalAndAppServiceAngular", builder =>
-                    builder.WithOrigins("http://calm-client.azurewebsites.net/", "http://192.168.99.100:4200",
-                                        "http://localhost:4200", "https://localhost:44395")
+                options.AddPolicy(CorsPolicyName, builder =>
+                    builder.WithOrigins(allowedOrigins ?? Array.Empty<string>())
                         .AllowAnyMethod()
                         .AllowAnyHeader());
             });
@@ -81,6 +108,17 @@ namespace Calm.App
                 app.UseDeveloperExceptionPage();
             }
 
+            if (Configuration.GetValue("UseHttpsRedirection", defaultValue: true) is true)
+            {
+                app.UseHttpsRedirection();
+            }
+
+            app.UseRouting();
+
+            app.UseCors("AllowLocalAndAppServiceAngular");
+
+            app.UseAuthorization();
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
@@ -88,19 +126,10 @@ namespace Calm.App
                 c.SwaggerEndpoint("/swagger/v0/swagger.json", "My API V1");
             });
 
-            calmContext.Database.EnsureDeleted();
+            // calmContext.Database.EnsureDeleted();
             calmContext.Database.Migrate();
             Seeder.Seed(calmContext);
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseCors("AllowLocalAndAppServiceAngular");
-
-
-            app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
