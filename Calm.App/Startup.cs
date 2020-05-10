@@ -9,7 +9,7 @@ using Calm.Lib;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +22,7 @@ namespace Calm.App
 {
     public class Startup
     {
+        private const string CorsPolicyName = "AllowConfiguredOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -85,11 +86,13 @@ namespace Calm.App
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+
+            var allowedOrigins = Configuration.GetSection("CorsOrigins").Get<string[]>();
+
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowLocalAndAppServiceAngular", builder =>
-                    builder.WithOrigins("http://calm-client.azurewebsites.net/", "http://192.168.99.100:4200",
-                                        "http://localhost:4200", "https://localhost:44395", "http://afe294f2047fb4008a06b49b3774259e-1696975683.us-east-2.elb.amazonaws.com/")
+                options.AddPolicy(CorsPolicyName, builder =>
+                    builder.WithOrigins(allowedOrigins ?? Array.Empty<string>())
                         .AllowAnyMethod()
                         .AllowAnyHeader());
             });
@@ -124,7 +127,7 @@ namespace Calm.App
             });
 
             // calmContext.Database.EnsureDeleted();
-            // calmContext.Database.Migrate();
+            calmContext.Database.Migrate();
             Seeder.Seed(calmContext);
             
             app.UseEndpoints(endpoints =>

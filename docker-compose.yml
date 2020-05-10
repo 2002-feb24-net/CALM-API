@@ -24,10 +24,11 @@ services:
       - default
     environment:
       DatabaseConnection: CalmDbPostgreSqlDockerCompose
-      ConnectionStrings__CalmDbPostgreSqlDockerCompose: "host=data;port=5432;database=calmdb;username=postgres;password=Password123"
+      ConnectionStrings__CalmDbPostgreSqlDockerCompose: "host=data;username=postgres;password=Password123"
       # EnsureDatabaseCreated: 'true'
-      # CorsOrigins__0: http://localhost:4200
-      # UseHttpsRedirection: 'false'
+      CorsOrigins__0: http://localhost:4200
+      CorsOrigins__1: http://192.168.99.100:4200
+      UseHttpsRedirection: 'false'
 
   data:
     build: 
@@ -35,7 +36,7 @@ services:
       dockerfile: db.Dockerfile
     image: postgres:12.0
     ports:
-      - "5432"
+      - 5432:5432
     restart: always
     networks:
       - default

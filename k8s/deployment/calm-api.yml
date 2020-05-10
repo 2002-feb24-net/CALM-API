@@ -35,10 +35,10 @@ spec:
           value: http://calm-client.azurewebsites.net
         - name: CorsOrigins__3
           value: https://calm-client.azurewebsites.net
-        # - name: CorsOrigins__4
-        #   value: http://calm-client-docker.azurewebsites.net
-        # - name: CorsOrigins__5
-        #   value: https://calm-client-docker.azurewebsites.net
+        - name: CorsOrigins__4
+          value: http://calm-client-docker.azurewebsites.net
+        - name: CorsOrigins__5
+          value: https://calm-client-docker.azurewebsites.net
         - name: CorsOrigins__6
           value: http://afe294f2047fb4008a06b49b3774259e-1696975683.us-east-2.elb.amazonaws.com
         - name: UseHttpsRedirection
