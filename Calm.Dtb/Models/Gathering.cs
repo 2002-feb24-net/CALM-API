@@ -17,5 +17,6 @@ namespace Calm.Dtb.Models
         public int MapDataId { get; set; }
         public Mapdata MapData { get; set; }
         public List<Link> links { get; set; }
+        public bool isEvent { get; set; }
     }
 }

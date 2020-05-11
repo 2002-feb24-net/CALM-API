@@ -90,5 +90,19 @@ namespace Calm.Lib
             }
             return ret;
         }
+
+        public async Task<object> ListGatherings(bool v)
+        {
+            var query = await Output.Get<Gathering>();
+            var ret = new List<GatheringItemOut>();
+            foreach (var item in query)
+            {
+                if (v == item.isEvent)
+                {
+                    ret.Add(await Logic.PopulateItem(Output, item));
+                }
+            }
+            return ret;
+        }
     }
 }

@@ -15,7 +15,8 @@ namespace Calm.Lib.Items
                 Title = Title,
                 occurrenceData = occurrenceData,
                 details = details,
-                organizerId = user.id
+                organizerId = user.id,
+                isEvent = isEvent
             };
         }
 
@@ -26,5 +27,6 @@ namespace Calm.Lib.Items
         [Required]
         public string occurrenceData { get; set; }
         public string details { get; set; }
+        public bool isEvent { get; set; }
     }
 }
