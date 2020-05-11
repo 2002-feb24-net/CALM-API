@@ -63,5 +63,26 @@ namespace Calm.App.Controllers
                 return NoContent();
             });
         }
+
+        /// <summary>
+        /// removes a user from the database without their password, must use login credentials of a higher ranking user
+        /// </summary>
+        /// <param name="Username">username of an existing user</param>
+        /// <param name="Password"></param>
+        /// <param name="subjectUser">username to effect</param>
+        /// <returns>effected user</returns>
+        /// <response code="204">request was successfull</response>
+        /// <response code="401">Invalid login</response>
+        /// <response code="403">Invalid credentials</response>
+        /// <response code="404">a parameter in the request header could not be found</response>
+        [HttpDelete("{Username}/{Password}/{subjectUser}")]
+        public async Task<ActionResult<UserItem>> RemoveUser(string Username, string Password, string subjectUser)
+        {
+            return await TryTask.Run(async () =>
+            {
+                await Delete.RemoveUser(Username, Password, subjectUser);
+                return NoContent();
+            });
+        }
     }
 }

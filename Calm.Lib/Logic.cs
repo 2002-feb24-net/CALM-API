@@ -90,7 +90,8 @@ namespace Calm.Lib
                 City = (await output.Get<Mapdata>(item.MapDataId)).city,
                 details = item.details,
                 organizer = await PopulateItem(output, await output.Get<User>(item.organizerId)),
-                atendees = users
+                atendees = users,
+                isEvent = item.isEvent
             };
         }
     }

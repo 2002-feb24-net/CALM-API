@@ -40,5 +40,11 @@ namespace Calm.Lib
         /// <param name="city">name of city</param>
         /// <returns>list of gatherings</returns>
         Task<IEnumerable<GatheringItemOut>> CityListGatherings(string city);
+        /// <summary>
+        /// querrys the database for all gatherings divideing by event boolean
+        /// </summary>
+        /// <param name="v">true for events false for support groups</param>
+        /// <returns>list of gatherings</returns>
+        Task<object> ListGatherings(bool v);
     }
 }

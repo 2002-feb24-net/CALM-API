@@ -13,5 +13,6 @@ namespace Calm.Lib.Items
         public string details { get; set; }
         public UserItem organizer { get; set; }
         public List<UserItem> atendees { get; set; }
+        public bool isEvent { get; set; }
     }
 }

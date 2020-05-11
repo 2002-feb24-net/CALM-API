@@ -59,6 +59,28 @@ namespace Calm.App.Controllers
         }
 
         /// <summary>
+        /// lists all Events with the ones who signed up
+        /// </summary>
+        /// <returns>list of Events</returns>
+        /// <response code="200">request was successfull</response>
+        [HttpGet("events")]
+        public async Task<ActionResult<IEnumerable<GatheringItemOut>>> ListGatheringsEvent()
+        {
+            return await TryTask.Run<IEnumerable<GatheringItemOut>>(async () => Ok(await Get.ListGatherings(true)));
+        }
+
+        /// <summary>
+        /// lists all support groups with the ones who signed up
+        /// </summary>
+        /// <returns>list of support groups</returns>
+        /// <response code="200">request was successfull</response>
+        [HttpGet("groups")]
+        public async Task<ActionResult<IEnumerable<GatheringItemOut>>> ListGatheringsGroup()
+        {
+            return await TryTask.Run<IEnumerable<GatheringItemOut>>(async () => Ok(await Get.ListGatherings(false)));
+        }
+
+        /// <summary>
         /// adds a new gathering
         /// </summary>
         /// <param name="username">username of an existing admin to own the gathering</param>
