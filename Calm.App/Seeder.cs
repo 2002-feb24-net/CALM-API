@@ -44,23 +44,35 @@ namespace Calm.App
 
             context.SaveChanges();
 
-            context.Gatherings.Add(
+            context.Gatherings.AddRange(
                 new Gathering()
                 {
                     Title = "first event",
                     details = "this is an event",
-                    occurrenceData = "the event happens st this time, or occors at  this regular interval",
+                    occurrenceData = "the event happens at this time, or occors at this regular interval",
                     organizerId = context.Admins.FirstOrDefault().user.Id,
-                    MapDataId = maps[0]
+                    MapDataId = maps[0],
+                    isEvent = true
+                },new Gathering()
+                {
+                    Title = "first suport group",
+                    details = "this is a suport group",
+                    occurrenceData = "the suport group meets at this time, or occors at this regular interval",
+                    organizerId = context.Admins.FirstOrDefault().user.Id,
+                    MapDataId = maps[0],
+                    isEvent = false
                 });
 
             context.SaveChanges();
 
             List<int> users = new List<int>(from item in context.Users.ToList() select item.Id);
+            List<int> gatherings = new List<int>(from item in context.Gatherings.ToList() select item.id);
 
             context.Links.AddRange(
-                new Link() { userId = users[1], gatheringId = context.Gatherings.FirstOrDefault().id },
-                new Link() { userId = users[2], gatheringId = context.Gatherings.FirstOrDefault().id });
+                new Link() { userId = users[1], gatheringId = gatherings[0] },
+                new Link() { userId = users[2], gatheringId = gatherings[0] },
+                new Link() { userId = users[1], gatheringId = gatherings[1] },
+                new Link() { userId = users[2], gatheringId = gatherings[1] });
             
 
             context.SaveChanges();

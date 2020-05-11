@@ -75,7 +75,7 @@ namespace Calm.App.Controllers
         /// <response code="401">Invalid login</response>
         /// <response code="403">Invalid credentials</response>
         /// <response code="404">a parameter in the request header could not be found</response>
-        [HttpPut("{Username}/{Password}/{subjectUser}")]
+        [HttpDelete("{Username}/{Password}/{subjectUser}")]
         public async Task<ActionResult<UserItem>> RemoveUser(string Username, string Password, string subjectUser)
         {
             return await TryTask.Run(async () =>
