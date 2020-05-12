@@ -8,14 +8,13 @@ namespace Calm.Lib.Items
 {
     public class GatheringItemIn
     {
-        public Gathering ToData(AdminInfo user)
+        public Gathering ToData()
         {
             return new Gathering()
             {
                 Title = Title,
                 occurrenceData = occurrenceData,
                 details = details,
-                organizerId = user.id,
                 isEvent = isEvent
             };
         }

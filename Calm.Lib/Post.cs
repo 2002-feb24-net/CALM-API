@@ -49,7 +49,11 @@ namespace Calm.Lib
                 throw new Exception("409", new Exception("A gathering of this title allready exists"));
             }
 
-            await Input.Add(gathering.ToData(await Output.GetFind<AdminInfo>(x => x.user.Username == username)));
+            var inGathering = gathering.ToData();
+            inGathering.MapDataId = await Logic.CityId(Output, gathering.City);
+            inGathering.organizerId = (await Logic.Login(Output, username, password)).Id;
+
+            await Input.Add(inGathering);
         }
 
         public async Task Enter(string username, string password, string title)

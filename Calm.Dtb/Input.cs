@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.Collections.Immutable;
 using System.Threading.Tasks;
 
 namespace Calm.Dtb
@@ -33,19 +34,25 @@ namespace Calm.Dtb
 
         public async Task Set<T>(T item, int id) where T : class
         {
-            var querry = context.Set<T>();
-            T output;
-            try
+            T output = await context.Set<T>().FindAsync(id);
+            if (output != null)
             {
-                output = await querry.FindAsync(id);
-                output = item;
+                try
+                {
+                    item = output;
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception E)
+                {
+                    throw new Exception("400",
+                        new Exception($"New item is invalid: {E.Message}"));
+                }
             }
-            catch (Exception E)
+            else
             {
-                throw new Exception("400",
-                    new Exception($"New item is invalid: {E.Message}"));
+                throw new Exception("500",
+                    new Exception("querried item does not exist"));
             }
-            await context.SaveChangesAsync();
         }
 
         public async Task Remove<T>(T item) where T : class
