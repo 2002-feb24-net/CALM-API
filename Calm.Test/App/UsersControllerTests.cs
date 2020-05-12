@@ -40,7 +40,7 @@ namespace Calm.App.Controllers.Tests
             var action = result.Result as OkObjectResult;
             var item = action.Value as List<UserItem>;
             Assert.True(Logic.CompareList(users, item, Logic.UserItemEquality));
-            MGet.Verify(x => x.UserList(), Times.Exactly(1));
+            MGet.Verify(x => x.UserList(), Times.Once);
         }
 
         [Fact]

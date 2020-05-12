@@ -39,7 +39,7 @@ namespace Calm.Dtb
             {
                 try
                 {
-                    item = output;
+                    output = item;
                     await context.SaveChangesAsync();
                 }
                 catch (Exception E)

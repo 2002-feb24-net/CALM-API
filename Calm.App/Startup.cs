@@ -56,7 +56,6 @@ namespace Calm.App
             //         options.UseSqlServer(connection));
             // }
 
-
             services.AddControllers();
 
             // var connection = 
@@ -127,7 +126,6 @@ namespace Calm.App
             });
 
             calmContext.Database.Migrate();
-            Seeder.Seed(calmContext);
             
             app.UseEndpoints(endpoints =>
             {
