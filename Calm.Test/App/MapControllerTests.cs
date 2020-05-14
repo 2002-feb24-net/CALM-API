@@ -1,8 +1,5 @@
 ﻿using Xunit;
-using Calm.App.Controllers;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Moq;
 using Calm.Lib;
 using Microsoft.AspNetCore.Mvc;

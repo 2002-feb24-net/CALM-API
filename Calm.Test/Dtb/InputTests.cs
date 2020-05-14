@@ -1,15 +1,8 @@
 ﻿using Xunit;
-using Calm.Dtb;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Calm.App;
-using Microsoft.Data.Sqlite;
-using Calm.Test.Dtb;
-using Calm.Test;
 using System.Linq;
-using Calm.Dtb.Models;
+using System.Collections.Generic;
 
 namespace Calm.Dtb.Tests
 {
@@ -17,14 +10,25 @@ namespace Calm.Dtb.Tests
     {
         private static CalmContext getContext()
         {
-            var ret = new TestContext();
+            var connection = new System.Data.SQLite.SQLiteConnection("Data Source=:memory:");
 
-            ret.Database.EnsureCreated();
-            ret.Database.Migrate();
-            Seeder.Seed(ret);
-            ret.SaveChanges();
+            connection.Open();
+            
+            var temp = new CalmContext(
+                new DbContextOptionsBuilder<CalmContext>()
+                .UseSqlite(connection)
+                .Options);
 
-            return ret;
+            temp.Database.Migrate();
+            Seeder.Seed(temp);
+            temp.SaveChanges();
+
+            temp.Dispose();
+
+            return new CalmContext(
+                new DbContextOptionsBuilder<CalmContext>()
+                .UseSqlite(connection)
+                .Options);
         }
 
         [Fact]
@@ -78,6 +82,7 @@ namespace Calm.Dtb.Tests
             var ent = context.Users.Add(user1);
             var obj = ent.Entity;
             user2.Id = obj.Id;
+            int z = user2.Id;
 
             context.SaveChanges();
 

@@ -1,7 +1,5 @@
 ﻿using Calm.Dtb.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System;
 
 namespace Calm.Dtb
 {

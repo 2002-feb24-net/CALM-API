@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
-using System.Collections.Immutable;
 using System.Threading.Tasks;
 
 namespace Calm.Dtb
@@ -40,6 +39,13 @@ namespace Calm.Dtb
                 try
                 {
                     output = item;
+                    
+                    context.Set<T>().Update(output);
+                    context.Update(output);
+                    context.Set<T>().Attach(output);
+                    context.Attach(output);
+                    context.Entry(output).State = EntityState.Modified;
+
                     await context.SaveChangesAsync();
                 }
                 catch (Exception E)
