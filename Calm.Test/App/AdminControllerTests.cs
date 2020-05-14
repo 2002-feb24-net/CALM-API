@@ -1,8 +1,4 @@
 ﻿using Xunit;
-using Calm.App.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Calm.Lib;
 using Moq;
 using System.Threading.Tasks;

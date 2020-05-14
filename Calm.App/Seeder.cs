@@ -1,14 +1,12 @@
 ﻿using Calm.Dtb;
 using Calm.Dtb.Models;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Calm.App
 {
-    public class Seeder
+    public static class Seeder
     {
         public static void Seed(CalmContext context)
         {

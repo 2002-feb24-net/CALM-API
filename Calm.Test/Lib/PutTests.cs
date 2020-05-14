@@ -1,8 +1,4 @@
 ﻿using Xunit;
-using Calm.Lib;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Calm.Lib.Tests
 {

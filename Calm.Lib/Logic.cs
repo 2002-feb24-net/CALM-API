@@ -3,12 +3,11 @@ using Calm.Dtb.Models;
 using Calm.Lib.Items;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Calm.Lib
 {
-    class Logic
+    static class Logic
     {
         public async static Task<User> Login(IOutput output, string username, string password)
         {

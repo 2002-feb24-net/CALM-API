@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace CoOp19.App
 {
-    public class TryTask
+    public static class TryTask
     {
         public static async Task<ActionResult<T>> Run<T>(Func<Task<ActionResult<T>>> Task) where T : class
         {

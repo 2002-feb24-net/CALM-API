@@ -2,8 +2,6 @@
 using Calm.Dtb.Models;
 using Calm.Lib.Items;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Calm.Lib
@@ -32,7 +30,7 @@ namespace Calm.Lib
             await Input.Set(item,item.Id);
         }
 
-        public async Task SwapUserStatus(string username, string password, string subjectUsername)
+        public async Task SwapUserStatus(string username, string password, string subjectUser)
         {
             if (!await Logic.CheckAdmin(Output, username, password))
             {
@@ -40,17 +38,17 @@ namespace Calm.Lib
                     " the credentials for an existing admin user must be provided"));
             }
 
-            bool isAdmin = null != await Output.GetFind<AdminInfo>(x => x.user.Username == subjectUsername);
+            bool isAdmin = null != await Output.GetFind<AdminInfo>(x => x.user.Username == subjectUser);
 
             if (!isAdmin)
             {
-                await Input.Add(new AdminInfo() { userId = Output.GetFind<User>(x=> x.Username == subjectUsername).Id });
+                await Input.Add(new AdminInfo() { userId = Output.GetFind<User>(x=> x.Username == subjectUser).Id });
             }
             else
             {
-                if ((await Output.GetFind<AdminInfo>(x => x.user.Username == subjectUsername)).SuperAdmin)
+                if ((await Output.GetFind<AdminInfo>(x => x.user.Username == subjectUser)).SuperAdmin)
                 {
-                    await Input.Remove(Output.GetFind<AdminInfo>(x=> x.user.Username==subjectUsername));
+                    await Input.Remove(Output.GetFind<AdminInfo>(x=> x.user.Username== subjectUser));
                 }
                 else
                 {
