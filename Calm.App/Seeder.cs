@@ -29,6 +29,22 @@ namespace Calm.App
                         where item.FName.Contains(x)
                         select item.Id).FirstOrDefault();
             };
+            Func<string, string, string, string, bool, string, string, Gathering> gather = 
+                (title, details, occurance, map, isEvent, u1, u2) =>
+            new Gathering()
+            {
+                Title = title,
+                details = details,
+                occurrenceData = occurance,
+                organizerId = context.Admins.FirstOrDefault().user.Id,
+                MapDataId = CityId(map),
+                isEvent = isEvent,
+                links = new List<Link>
+                {
+                    new Link { userId = UserId(u1) },
+                    new Link { userId = UserId(u2) }
+                }
+            };
 
             context.Citys.AddRange(
                 new Mapdata() { city = "Houston, TX" },
@@ -69,124 +85,78 @@ namespace Calm.App
             context.SaveChanges();
 
             context.Gatherings.AddRange(
-                new Gathering()
-                {
-                    Title = "Marvin’s Room: with guest Drake",
-                    details = "Location: TBA",
-                    occurrenceData = "October 15th",
-                    organizerId = context.Admins.FirstOrDefault().user.Id,
-                    MapDataId = CityId("Houston"),
-                    isEvent = true,
-                    links = new List<Link>
-                    {
-                        new Link { userId = UserId("Samuel") },
-                        new Link { userId = UserId("Andrew") }
-                    }
-                }, new Gathering()
-                {
-                    Title = "Love and Happiness: with guest Kevin Love",
-                    details = "",
-                    occurrenceData = "June 12th",
-                    organizerId = context.Admins.FirstOrDefault().user.Id,
-                    MapDataId = CityId("Online"),
-                    isEvent = true,
-                    links = new List<Link>
-                    {
-                        new Link { userId = UserId("Ulysses") },
-                        new Link { userId = UserId("Samuel") }
-                    }
-                }, new Gathering()
-                {
-                    Title = "Struggles of Balance: guest Demi Lovato",
-                    details = "",
-                    occurrenceData = "August 1st",
-                    organizerId = context.Admins.FirstOrDefault().user.Id,
-                    MapDataId = CityId("Online"),
-                    isEvent = true,
-                    links = new List<Link>
-                    {
-                        new Link { userId = UserId("Ulysses") },
-                        new Link { userId = UserId("Andrew") }
-                    }
-                }, new Gathering()
-                {
-                    Title = "Generalized Anxiety",
-                    details = "",
-                    occurrenceData = "Monday - Friday",
-                    organizerId = context.Admins.FirstOrDefault().user.Id,
-                    MapDataId = CityId("Dallas"),
-                    isEvent = false,
-                    links = new List<Link>
-                    {
-                        new Link { userId = UserId("Samuel") },
-                        new Link { userId = UserId("Rutherford") }
-                    }
-                }, new Gathering()
-                {
-                    Title = "Post Traumatic Anxiety Disorder",
-                    details = "",
-                    occurrenceData = "Monday - Friday",
-                    organizerId = context.Admins.FirstOrDefault().user.Id,
-                    MapDataId = CityId("Dallas"),
-                    isEvent = false,
-                    links = new List<Link>
-                    {
-                        new Link { userId = UserId("Grover") },
-                        new Link { userId = UserId("Chester") }
-                    }
-                }, new Gathering()
-                {
-                    Title = "Social Anxiety",
-                    details = "",
-                    occurrenceData = "Monday - Friday",
-                    organizerId = context.Admins.FirstOrDefault().user.Id,
-                    MapDataId = CityId("Online"),
-                    isEvent = false,
-                    links = new List<Link>
-                    {
-                        new Link { userId = UserId("James") },
-                        new Link { userId = UserId("Ulysses") }
-                    }
-                }, new Gathering()
-                {
-                    Title = "Panic Disorder",
-                    details = "",
-                    occurrenceData = "Monday - Friday",
-                    organizerId = context.Admins.FirstOrDefault().user.Id,
-                    MapDataId = CityId("Dallas"),
-                    isEvent = false,
-                    links = new List<Link>
-                    {
-                        new Link { userId = UserId("Samuel") },
-                        new Link { userId = UserId("James") }
-                    }
-                }, new Gathering()
-                {
-                    Title = "Obsessive Compulsive Disorder",
-                    details = "",
-                    occurrenceData = "Monday - Friday",
-                    organizerId = context.Admins.FirstOrDefault().user.Id,
-                    MapDataId = CityId("Online"),
-                    isEvent = false,
-                    links = new List<Link>
-                    {
-                        new Link { userId = UserId("Theadore") },
-                        new Link { userId = UserId("William") }
-                    }
-                }, new Gathering()
-                {
-                    Title = "Specific phobias",
-                    details = "",
-                    occurrenceData = "Monday - Friday",
-                    organizerId = context.Admins.FirstOrDefault().user.Id,
-                    MapDataId = CityId("Dallas"),
-                    isEvent = false,
-                    links = new List<Link>
-                    {
-                        new Link { userId = UserId("Samuel") },
-                        new Link { userId = UserId("Benjamin") }
-                    }
-                });
+                gather(
+                    "Marvin’s Room: with guest Drake",
+                    "Location: TBA",
+                    "June 12th",
+                    "Houston",
+                    true,
+                    "Samuel",
+                    "Andrew"),
+                gather(
+                    "Love and Happiness: with guest Kevin Love",
+                    "",
+                    "June 12th",
+                    "Online",
+                    true,
+                    "Ulysses",
+                    "Samuel"),
+                gather(
+                    "Struggles of Balance: guest Demi Lovato",
+                    "",
+                    "August 1st",
+                    "Online",
+                    true,
+                    "Ulysses",
+                    "Andrew"),
+                gather(
+                    "Generalized Anxiety",
+                    "",
+                    "Monday - Friday",
+                    "Dallas",
+                    false,
+                    "Samuel",
+                    "Rutherford"),
+                gather(
+                    "Post Traumatic Anxiety Disorder",
+                    "",
+                    "Monday - Friday",
+                    "Dallas",
+                    false,
+                    "Grover",
+                    "Chester"),
+                gather(
+                    "Social Anxiety",
+                    "",
+                    "Monday - Friday",
+                    "Online",
+                    false,
+                    "James",
+                    "Ulysses"),
+                gather(
+                    "Panic Disorder",
+                    "",
+                    "Monday - Friday",
+                    "Dallas",
+                    false,
+                    "Samuel",
+                    "James"),
+                gather(
+                    "Obsessive Compulsive Disorder",
+                    "",
+                    "Monday - Friday",
+                    "Online",
+                    false,
+                    "Theadore",
+                    "William"),
+                gather(
+                    "Specific phobias",
+                    "",
+                    "Monday - Friday",
+                    "Dallas",
+                    false,
+                    "Samuel",
+                    "Benjamin"));
             
             context.SaveChanges();
         }
