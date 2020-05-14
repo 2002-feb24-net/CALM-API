@@ -45,6 +45,20 @@ namespace Calm.Lib
             return ret;
         }
 
+        public async Task<object> ListGatherings(bool v)
+        {
+            var query = await Output.Get<Gathering>();
+            var ret = new List<GatheringItemOut>();
+            foreach (var item in query)
+            {
+                if (v == item.isEvent)
+                {
+                    ret.Add(await Logic.PopulateItem(Output, item));
+                }
+            }
+            return ret;
+        }
+
         public async Task<IEnumerable<string>> CityList()
         {
             var objs = await Output.Get<Mapdata>();
@@ -84,20 +98,6 @@ namespace Calm.Lib
                     item2.Password = "";
                 }
                 ret.Add(retItem);
-            }
-            return ret;
-        }
-
-        public async Task<object> ListGatherings(bool v)
-        {
-            var query = await Output.Get<Gathering>();
-            var ret = new List<GatheringItemOut>();
-            foreach (var item in query)
-            {
-                if (v == item.isEvent)
-                {
-                    ret.Add(await Logic.PopulateItem(Output, item));
-                }
             }
             return ret;
         }
